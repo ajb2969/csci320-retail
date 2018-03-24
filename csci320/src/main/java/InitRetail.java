@@ -38,36 +38,17 @@ public class InitRetail {
 
 
 
-
-    private static boolean checkMemberInput(Scanner input, String query){
-        if(query.toLowerCase().equals("yes") ||
-                query.toLowerCase().equals("y"))
-        {return true;}
-        else if(query.toLowerCase().equals("no") ||
-                query.toLowerCase().equals("n"))
-        {return false;}
-        else{
-            while(!((query.toLowerCase().equals("yes") || query.toLowerCase().equals("y"))
-                    || (query.toLowerCase().equals("no") || query.toLowerCase().equals("n")))){
-                System.out.print("Are you a member(Y/N): ");
-                query = input.nextLine();
-            }
-            if(query.toLowerCase().equals("yes") ||
-                    query.toLowerCase().equals("y"))
-            {return true;}
-            else
-            {return false;}
-        }
-    }
-
-
-
-
     public static void main(String [] args){
         //initializes and fills the database
-        //InitRetail ir = new InitRetail("","","");//connects to db
-        //PopulateInventory pi = new PopulateInventory(conn);//populates db
+        InitRetail ir = new InitRetail("~/h2/retail","user","password");
         Scanner input = new Scanner(System.in);
+        Table customer = new Customer(conn);
+        customer.populateTables(conn,"/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/customersList.csv");
+        Table store = new Store(conn);
+        store.populateTables(conn, "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/storeList.csv");
+
+
+
         String query = "";
         System.out.println("Welcome to JAKE'S!");
         System.out.print("Are you a member(Y/N): ");
