@@ -3,6 +3,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.*;
+import static main.java.Customer.*;
 
 //@todo populate the database
 //@todo check member credentials
@@ -34,62 +35,9 @@ public class InitRetail {
 
     }
 
-    private static void printMemberHelp(){
-        System.out.println("How can we help you today?");
-        System.out.println("Location");
-        System.out.println("Inventory");
-        System.out.println("Sort");
-        System.out.println("Add");
-        System.out.println("Cart");
-        System.out.println("History");
-        System.out.println("Checkout");
-    }
-
-    private static void printEmployeeHelp(){
-        printMemberHelp();
-        System.out.println("InventoryAdd");
-        System.out.println("InventoryRemove");
-        System.out.println("Restock");
-
-    }
-
-    private static void printGuestHelp(){
-        printMemberHelp();
-        System.out.println("RegisterAccount");
 
 
-    }
 
-    private static String checkMemberCredentials(Scanner input){
-        System.out.print("Enter your username: ");
-        String username = input.nextLine();
-        System.out.print("Enter your password: ");
-        String password = input.nextLine();
-
-
-        if(false){
-            /*combination not correct
-            System.out.print("Are you **actually** a member?: ");
-            String query = input.nextLine();
-            Boolean m = checkMemberInput(input,query);
-            if(m){
-                while(username and password are not correct){
-                    reask for username and password
-                }
-                return user's name
-            }
-            else{
-                return null;
-            }
-
-
-            */
-        }
-        else{//combination correct
-            //return user's name
-        }
-        return null;
-    }
 
     private static boolean checkMemberInput(Scanner input, String query){
         if(query.toLowerCase().equals("yes") ||
@@ -113,14 +61,7 @@ public class InitRetail {
     }
 
 
-    public static void startGuestLoop(){
-        printGuestHelp();
-    }
 
-    public static void startMemberLoop(String user){
-        System.out.println("Hello " + user);
-        printMemberHelp();
-    }
 
     public static void main(String [] args){
         //initializes and fills the database
