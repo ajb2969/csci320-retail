@@ -1,5 +1,9 @@
 package main.java;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -9,30 +13,94 @@ public class Store extends Table{
         super(c);
     }
 
+
     @Override
+    public String convertListToString(String[] kk) {
+        kk[2] = kk[2].substring(1,kk[2].length()-1);
+        return String.format("%d,\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d,%d",
+                Integer.parseInt(kk[0]),
+                kk[1],
+                kk[2],
+                kk[3],
+                kk[4],
+                kk[5],
+                kk[6],
+                Integer.parseInt(kk[7]),
+                Integer.parseInt(kk[8]),
+                Integer.parseInt(kk[9]),
+                Integer.parseInt(kk[10]),
+                Integer.parseInt(kk[11]),
+                Integer.parseInt(kk[12]),
+                Integer.parseInt(kk[13]),
+                Integer.parseInt(kk[14]),
+                Integer.parseInt(kk[15]),
+                Integer.parseInt(kk[16]),
+                Integer.parseInt(kk[17]),
+                Integer.parseInt(kk[18]),
+                Integer.parseInt(kk[19]),
+                Integer.parseInt(kk[20])
+        );
+    }
+
+    @Override
+    //store 30 is the online store
     public void populateTables(Connection c, String filename) {
         try {
-            String query = "CREATE TABLE IF NOT EXISTS Customer("
-                    + "id INT PRIMARY KEY NOT NULL ,"
-                    + "fname VARCHAR(150) NULL,"
-                    + "mname VARCHAR(150) NULL,"
-                    + "lname VARCHAR(150) NULL,"
+            String query = "CREATE TABLE IF NOT EXISTS Store("
+                    + "id INT PRIMARY KEY NOT NULL,"
+                    + "name VARCHAR(150) NOT NULL,"
                     + "address VARCHAR(150) NULL,"
                     + "city VARCHAR(150) NULL,"
                     + "state VARCHAR(150) NULL,"
                     + "zipcode VARCHAR(150) NULL,"
                     + "country VARCHAR(150) NULL,"
-                    + "email VARCHAR(150) NULL,"
-                    + "hstoreId INT NULL,"
-                    + "customerType VARCHAR(45) NOT NULL,"
+                    + "m_open INT NULL,"
+                    + "m_close INT NULL,"
+                    + "tue_open INT NULL,"
+                    + "tue_close INT NULL,"
+                    + "w_open INT NULL,"
+                    + "w_close INT NULL,"
+                    + "thur_open INT NULL,"
+                    + "thur_close INT NULL,"
+                    + "fri_open INT NULL,"
+                    + "fri_close INT NULL,"
+                    + "sat_open INT NULL,"
+                    + "sat_close INT NULL,"
+                    + "sun_open INT NULL,"
+                    + "sun_close INT NULL"
                     + ");";
 
             Statement stmt = c.createStatement();
             stmt.execute(query);
+            BufferedReader reader = new BufferedReader(new FileReader(filename));
+            String line;
+            String insertQuery = "insert into Store values";
+            while ((line = reader.readLine()) != null) {
+                if(line != null){
+                    insertQuery += "(";
+                    String [] kk = line.split("\\|");
+                    insertQuery += convertListToString(kk);
+                    insertQuery+=")";
+                }
+                insertQuery+=",";
+            }
+            int rep = insertQuery.lastIndexOf(",");
+            String fixString = insertQuery.substring(0,rep);
+            fixString+=";";
+
+            Statement s = c.createStatement();
+            //s.execute(fixString);
+
         } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
 
     }
+
+
 }

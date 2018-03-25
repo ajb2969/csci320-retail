@@ -9,6 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 
 public class Customer extends Table{
@@ -17,10 +18,28 @@ public class Customer extends Table{
     }
 
     @Override
+    public String convertListToString(String [] kk){
+        return String.format("%d,\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%d\',\'%s\'",
+                Integer.parseInt(kk[0]),
+                kk[1],
+                kk[2],
+                kk[3],
+                kk[4],
+                kk[5],
+                kk[6],
+                kk[7],
+                kk[8],
+                kk[9],
+                Integer.parseInt(kk[10]),
+                kk[11]
+                );
+    }
+
+    @Override
     public void populateTables(Connection c, String filename) {
         try {
             String query = "CREATE TABLE IF NOT EXISTS Customer("
-                        + "id INT PRIMARY KEY NOT NULL ,"
+                        + "id INT PRIMARY KEY NOT NULL,"
                         + "fname VARCHAR(150) NULL,"
                         + "mname VARCHAR(150) NULL,"
                         + "lname VARCHAR(150) NULL,"
@@ -43,22 +62,17 @@ public class Customer extends Table{
                 if(line != null){
                     insertQuery += "(";
                     String [] kk = line.split("\\|");
-                    for(int i = 0; i< kk.length-1; i++){
-                        insertQuery+=kk[i] + ",";
-                    }
-                    insertQuery+=kk[kk.length-1];
+                    insertQuery += convertListToString(kk);
                     insertQuery+=")";
                 }
                 insertQuery+=",";
-                break;
             }
             int rep = insertQuery.lastIndexOf(",");
             String fixString = insertQuery.substring(0,rep);
             fixString+=";";
 
-            String [] l = fixString.split(",\\(");
             Statement s = c.createStatement();
-            s.execute(fixString);
+            //s.execute(fixString);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -77,6 +91,7 @@ public class Customer extends Table{
         System.out.println("Cart");
         System.out.println("History");
         System.out.println("Checkout");
+        System.out.println("Logout");
     }
 
     public static void printEmployeeHelp(){
@@ -121,6 +136,7 @@ public class Customer extends Table{
         }
         else{//combination correct
             //return user's name
+            return username;
         }
         return null;
     }
@@ -129,9 +145,77 @@ public class Customer extends Table{
         printGuestHelp();
     }
 
+    public static void parseCommand(String command){
+        Scanner input = new Scanner(System.in);
+        String c = command.toLowerCase();
+        if(c.equals("location")){
+            try{
+                ArrayList<String []> l = new ArrayList<String []>();
+                BufferedReader reader = new BufferedReader(new FileReader("/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/storeList.csv"));
+                String line;
+                while ((line = reader.readLine()) != null) {
+                    String [] a = line.split("\\|");
+                    l.add(a);
+                    System.out.println(Integer.parseInt(a[0]) + " - " + a[2] + ", " + a[3]);
+                }
+                System.out.println("Please select the Store Id that you're in:");
+                System.out.print(">");
+                int id = input.nextInt();
+                System.out.println("You are in Jake's located at " + l.get(id)[2]);
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        }
+        else if(c.equals("inventory")){
+            System.out.println("You have just printed out the store inventory");
+        }
+        else if(c.equals("sort")){
+            System.out.println("What would you like to sort the store inventory by?");
+            System.out.println("Price, Brand, or Product Type:");
+            String answer = input.nextLine();
+            parseCommand("inventory");
+            System.out.println("By " + answer);
+        }
+        else if(c.equals("add")){
+            System.out.print("Enter the UPC of the item you would like to add:");
+            int UPC = input.nextInt();
+            System.out.println("You have now added 6-ct of Bananas to your cart");
+        }
+        else if(c.equals("cart")){
+            System.out.println("Printed below is all the items in your cart currently");
+        }
+        else if(c.equals("history")){
+            System.out.println("Printed below are all the items that you have purchased in the last 30 days");
+        }
+        else if(c.equals("checkout")){
+            System.out.print("Please enter your Credit card number: ");
+            int ccn  = input.nextInt();
+            System.out.print("Please enter your CCV:");
+            int ccv = input.nextInt();
+            System.out.println("Printed below is your Receipt");
+            System.out.println("GoodBye");
+        }
+        else{
+            System.out.println("The command " + c + "that you have enterd is invalid");
+        }
+    }
+
     public static void startMemberLoop(String user){
         System.out.println("Hello " + user);
         printMemberHelp();
+        Scanner input = new Scanner(System.in);
+        String line = "";
+        while(!(line.toLowerCase().equals("logout"))){
+            System.out.print(">");
+            String command = input.nextLine();
+            parseCommand(command);
+            printMemberHelp();
+            System.out.print(">");
+            command = input.nextLine();
+        }
     }
 
 

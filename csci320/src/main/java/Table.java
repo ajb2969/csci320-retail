@@ -13,4 +13,6 @@ public abstract class Table {
     }
 
     public abstract void populateTables(Connection c, String filename);
+
+    public abstract String convertListToString(String [] kk);
 }

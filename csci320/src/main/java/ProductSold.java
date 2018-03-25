@@ -9,22 +9,12 @@ public class ProductSold extends Table{
         super(c);
     }
 
+
+    /*Product Sold Table(Sale_ID,UPC,Quantity)*/
     @Override
     public void populateTables(Connection c, String filename) {
         try {
-            String query = "CREATE TABLE IF NOT EXISTS Customer("
-                    + "id INT PRIMARY KEY NOT NULL ,"
-                    + "fname VARCHAR(150) NULL,"
-                    + "mname VARCHAR(150) NULL,"
-                    + "lname VARCHAR(150) NULL,"
-                    + "address VARCHAR(150) NULL,"
-                    + "city VARCHAR(150) NULL,"
-                    + "state VARCHAR(150) NULL,"
-                    + "zipcode VARCHAR(150) NULL,"
-                    + "country VARCHAR(150) NULL,"
-                    + "email VARCHAR(150) NULL,"
-                    + "hstoreId INT NULL,"
-                    + "customerType VARCHAR(45) NOT NULL,"
+            String query = "CREATE TABLE IF NOT EXISTS ProductSold("
                     + ");";
 
             Statement stmt = c.createStatement();
@@ -33,5 +23,10 @@ public class ProductSold extends Table{
             e.printStackTrace();
         }
 
+    }
+
+    @Override
+    public String convertListToString(String[] kk) {
+        return null;
     }
 }
