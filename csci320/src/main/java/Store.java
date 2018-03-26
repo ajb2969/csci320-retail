@@ -89,7 +89,7 @@ public class Store extends Table{
             fixString+=";";
 
             Statement s = c.createStatement();
-            //s.execute(fixString);
+            s.execute(fixString);
 
         } catch (SQLException e) {
             e.printStackTrace();

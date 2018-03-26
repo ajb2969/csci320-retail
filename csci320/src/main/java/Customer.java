@@ -1,10 +1,12 @@
 package main.java;
 
+import javax.xml.transform.Result;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -72,7 +74,7 @@ public class Customer extends Table{
             fixString+=";";
 
             Statement s = c.createStatement();
-            //s.execute(fixString);
+            s.execute(fixString);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -82,7 +84,7 @@ public class Customer extends Table{
         }
     }
 
-    public static void printMemberHelp(){
+    private static void printMemberHelp(){
         System.out.println("How can we help you today?");
         System.out.println("Location");
         System.out.println("Inventory");
@@ -94,7 +96,7 @@ public class Customer extends Table{
         System.out.println("Logout");
     }
 
-    public static void printEmployeeHelp(){
+    private static void printEmployeeHelp(){
         printMemberHelp();
         System.out.println("InventoryAdd");
         System.out.println("InventoryRemove");
@@ -102,50 +104,54 @@ public class Customer extends Table{
 
     }
 
-    public static void printGuestHelp(){
+    private static void printGuestHelp(){
         printMemberHelp();
         System.out.println("RegisterAccount");
 
 
     }
 
-    public static String checkMemberCredentials(Scanner input){
-        System.out.print("Enter your username: ");
+    private static String checkMemberCredentials(Connection conn, Scanner input){
+        System.out.print("Enter your username: ");//username is first + lastname
         String username = input.nextLine();
-        System.out.print("Enter your password: ");
+        System.out.print("Enter your password: ");//password is zipcode
         String password = input.nextLine();
 
-
-        if(false){
-            /*combination not correct
-            System.out.print("Are you **actually** a member?: ");
-            String query = input.nextLine();
-            Boolean m = checkMemberInput(input,query);
-            if(m){
-                while(username and password are not correct){
-                    reask for username and password
+        try{
+            String query = "Select fname,lname,zipcode from Customer where customerType = 2"; //2 is a member
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);//pulls all members
+            while(rs.next()){
+                String user = rs.getString("fname").toLowerCase() +
+                              rs.getString("lname").toLowerCase();
+                int p = rs.getInt("zipcode");
+                if(user.equals(username.toLowerCase()) && Integer.parseInt(password) == p){
+                    return rs.getString("fname");
                 }
-                return user's name
             }
-            else{
-                return null;
-            }
-
-
-            */
-        }
-        else{//combination correct
-            //return user's name
-            return username;
+            return null;
+        } catch (SQLException e) {
+            e.printStackTrace();
         }
         return null;
     }
 
-    public static void startGuestLoop(){
+    private static void startGuestLoop(){
         printGuestHelp();
+        Scanner input = new Scanner(System.in);
+        String line = "";
+        while(!(line.toLowerCase().equals("logout"))){
+            System.out.print(">");
+            String command = input.nextLine();
+            parseCommand(command);
+            printMemberHelp();
+            System.out.print(">");
+            command = input.nextLine();
+        }
+        input.close();
     }
 
-    public static void parseCommand(String command){
+    private static void parseCommand(String command){
         Scanner input = new Scanner(System.in);
         String c = command.toLowerCase();
         if(c.equals("location")){
@@ -203,19 +209,20 @@ public class Customer extends Table{
         }
     }
 
-    public static void startMemberLoop(String user){
+    private static void startMemberLoop(String user){
         System.out.println("Hello " + user);
         printMemberHelp();
         Scanner input = new Scanner(System.in);
         String line = "";
         while(!(line.toLowerCase().equals("logout"))){
             System.out.print(">");
-            String command = input.nextLine();
-            parseCommand(command);
+            line = input.nextLine();
+            parseCommand(line);
             printMemberHelp();
             System.out.print(">");
-            command = input.nextLine();
+            line = input.nextLine();
         }
+        input.close();
     }
 
 

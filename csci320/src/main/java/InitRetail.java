@@ -43,9 +43,9 @@ public class InitRetail {
         InitRetail ir = new InitRetail("~/h2/retail","user","password");
         Scanner input = new Scanner(System.in);
         Table customer = new Customer(conn);
-        customer.populateTables(conn,"/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/customersList.csv");
+        //customer.populateTables(conn,"/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/customersList.csv");
         Table store = new Store(conn);
-        store.populateTables(conn, "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/storeList.csv");
+        //store.populateTables(conn, "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/storeList.csv");
 
 
 
@@ -55,7 +55,7 @@ public class InitRetail {
         query = input.nextLine();
         Boolean member = checkMemberInput(input,query);
         if(member){
-            String user = checkMemberCredentials(input);
+            String user = checkMemberCredentials(conn,input);
             if(user == null){
                 startGuestLoop();
             }
