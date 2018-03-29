@@ -1,5 +1,9 @@
 package main.java;
 
+/*
+@Author: Alex Brown
+ */
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -11,9 +15,10 @@ import java.sql.Statement;
 import java.util.*;
 
 public class Customer extends Table{
-    public Customer(Connection c) {
+    public Customer(Connection c,String filename) {
         super(c);
         populateCommands();
+        populateTables(c,filename);
     }
 
     enum customerType{
@@ -77,7 +82,7 @@ public class Customer extends Table{
             String line;
             String insertQuery = "insert into Customer values";
             while ((line = reader.readLine()) != null) {
-                if(line != null){
+                if(!(line.equals("") && line.contains("#"))){
                     insertQuery += "(";
                     String [] kk = line.split("\\|");
                     insertQuery += convertListToString(kk);

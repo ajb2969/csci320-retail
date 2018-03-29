@@ -1,5 +1,9 @@
 package main.java;
 
+/*
+@Author: Alex Brown
+ */
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -11,8 +15,9 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 public class Store extends Table{
-    public Store(Connection c) {
+    public Store(Connection c,String filename) {
         super(c);
+        populateTables(c,filename);
     }
 
 

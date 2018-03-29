@@ -1,5 +1,9 @@
 package main.java;
 
+/*
+@Author: Alex Brown
+ */
+
 import java.sql.Connection;
 import java.util.List;
 import java.util.Scanner;

@@ -5,14 +5,20 @@ import java.sql.SQLException;
 import java.util.*;
 import static main.java.Customer.*;
 
-//@todo populate the database
-//@todo check member credentials
-//@todo handle employee credentials
-//@todo handle parsing and conversion to SQL queries
-
+/*
+@Author: Alex Brown
+ */
 
 public class InitRetail {
     private static Connection conn;
+    private static String customerFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/customersList.csv";
+    private static String inventoryFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/inventoryList.csv";
+    private static String productFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/productList.csv";
+    private static String productSoldFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/productsSoldList.csv";
+    private static String saleFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/saleList.csv";
+    private static String storeFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/storeList.csv";
+    private static String vendorFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/storeList.csv";
+
     public InitRetail(String location,
                       String user,
                       String password){
@@ -42,10 +48,14 @@ public class InitRetail {
         //initializes and fills the database
         InitRetail ir = new InitRetail("~/h2/retail","user","password");
         Scanner input = new Scanner(System.in);
-        Table customer = new Customer(conn);
-        //customer.populateTables(conn,"/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/customersList.csv");
-        Table store = new Store(conn);
-        //store.populateTables(conn, "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/storeList.csv");
+        Table customer = new Customer(conn,customerFile);
+        Table store = new Store(conn,storeFile);
+        Table inventory = new Inventory(conn,inventoryFile);
+        //Table product = new Product(conn,productFile);
+        Table productSold = new ProductSold(conn,productSoldFile);
+        Table sale = new Sale(conn, saleFile);
+        Table vendor = new Vendor(conn,vendorFile);
+
 
 
 
