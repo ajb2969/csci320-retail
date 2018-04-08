@@ -17,12 +17,11 @@ public class InitRetail {
     private static String productSoldFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/productsSoldList.csv";
     private static String saleFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/saleList.csv";
     private static String storeFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/storeList.csv";
-    private static String vendorFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/storeList.csv";
+    private static String vendorFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/vendorsList.csv";
 
     public InitRetail(String location,
                       String user,
                       String password){
-
         try {
             //This needs to be on the front of your location
             String url = "jdbc:h2:" + location;
@@ -38,11 +37,7 @@ public class InitRetail {
             //You should handle this better
             e.printStackTrace();
         }
-
     }
-
-
-
 
     public static void main(String [] args){
         //initializes and fills the database
@@ -50,13 +45,13 @@ public class InitRetail {
         Scanner input = new Scanner(System.in);
         Table customer = new Customer(conn,customerFile);
         Table store = new Store(conn,storeFile);
-        Table inventory = new Inventory(conn,inventoryFile);
-        //Table product = new Product(conn,productFile);
-        Table productSold = new ProductSold(conn,productSoldFile);
-        Table sale = new Sale(conn, saleFile);
         Table vendor = new Vendor(conn,vendorFile);
 
 
+        //Table inventory = new Inventory(conn,inventoryFile);
+        //Table product = new Product(conn,productFile);
+        //Table productSold = new ProductSold(conn,productSoldFile);
+        //Table sale = new Sale(conn, saleFile);
 
 
         String query = "";

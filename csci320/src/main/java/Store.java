@@ -1,9 +1,7 @@
 package main.java;
-
 /*
 @Author: Alex Brown
  */
-
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -19,7 +17,6 @@ public class Store extends Table{
         super(c);
         populateTables(c,filename);
     }
-
 
     @Override
     public String convertListToString(String[] kk) {

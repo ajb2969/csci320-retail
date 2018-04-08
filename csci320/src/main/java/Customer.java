@@ -82,13 +82,13 @@ public class Customer extends Table{
             String line;
             String insertQuery = "insert into Customer values";
             while ((line = reader.readLine()) != null) {
-                if(!(line.equals("") && line.contains("#"))){
+                if((!line.equals("")) && (!line.contains("#"))){
                     insertQuery += "(";
                     String [] kk = line.split("\\|");
                     insertQuery += convertListToString(kk);
-                    insertQuery+=")";
+                    insertQuery+="),";
                 }
-                insertQuery+=",";
+
             }
             int rep = insertQuery.lastIndexOf(",");
             String fixString = insertQuery.substring(0,rep);
