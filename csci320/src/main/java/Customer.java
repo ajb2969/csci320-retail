@@ -32,7 +32,7 @@ public class Customer extends Table{
     private void populateCommands(){
         commands = new HashMap<customerType,List<String>>();
         commands.put(customerType.Guest, Arrays.asList(
-                "registeraccount","location","inventory","sort","add","cart","history","checkout","logout"));
+                "registeraccount","location","inventory","sort","add","cart", "checkout","logout"));
         commands.put(customerType.Member, Arrays.asList(
                 "location","inventory","sort","add","cart","history","checkout","logout"));
         commands.put(customerType.Employee, Arrays.asList(
