@@ -25,10 +25,11 @@ public class Product extends Table{
     @Override
     public String convertListToString(String[] kk) {
         if(kk[2].equals("") || kk[3].equals("")){
-            return String.format("'%s',%f,%f,'%s',%d,%d",
+            return String.format("'%s',%f,%f,'%s','%s',%d,%d",
                     kk[0],
                     Float.parseFloat(kk[1]),
                     null,
+                    kk[6],
                     null,
                     Integer.parseInt(kk[4]),
                     Integer.parseInt(kk[5])
@@ -38,20 +39,22 @@ public class Product extends Table{
             if(kk[2].contains("/")){
                 String [] unit = kk[2].split("/");
                 double num = Double.parseDouble(unit[0]) / Double.parseDouble(unit[1]);
-                return String.format("'%s',%f,%f,'%s',%d,%d",
+                return String.format("'%s',%f,%f,'%s','%s',%d,%d",
                         kk[0],
                         Float.parseFloat(kk[1]),
                         num,
+                        kk[6],
                         kk[3],
                         Integer.parseInt(kk[4]),
                         Integer.parseInt(kk[5])
                 );
             }
             else{
-                return String.format("'%s',%f,%d,'%s',%d,%d",
+                return String.format("'%s',%f,%d,'%s','%s',%d,%d",
                         kk[0],
                         Float.parseFloat(kk[1]),
                         Integer.parseInt(kk[2]),
+                        kk[6],
                         kk[3],
                         Integer.parseInt(kk[4]),
                         Integer.parseInt(kk[5])
@@ -68,6 +71,7 @@ public class Product extends Table{
                     + "productType VARCHAR(150) NOT NULL ,"
                     + "price NUMERIC(8,2) NOT NULL,"
                     + "quantityAmount INT,"
+                    + "brand VARCHAR(150),"
                     + "quantityType VARCHAR(150),"
                     + "upc INT NOT NULL,"
                     + "vendorID INT NOT NULL"

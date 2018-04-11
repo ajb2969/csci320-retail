@@ -53,7 +53,7 @@ public abstract class Table {
 
         }
         else if(c.equals("inventory")){
-            System.out.println("You have just printed out the store inventory");
+            Inventory.printInventory(conn,curruser);
         }
         else if(c.equals("sort")){
             System.out.println("What would you like to sort the store inventory by?");

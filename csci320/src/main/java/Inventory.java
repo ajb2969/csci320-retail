@@ -3,10 +3,12 @@
  */
 package main.java;
 
+import javax.swing.plaf.nimbus.State;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.sql.Connection;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
@@ -51,10 +53,28 @@ public class Inventory extends Table {
             Statement s = c.createStatement();
             s.execute(fixString);
 
-    } catch (SQLException | IOException e) {
-        e.printStackTrace();
+        } catch (SQLException | IOException e) {
+            e.printStackTrace();
+        }
     }
-}
+
+    public static void printInventory(Connection conn, String user){
+        try {
+            String query = "select fname,hstoreID from Customer where fname = " + user + ";";
+            Statement s = conn.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            int hstore;
+            while(rs.next()){
+                hstore = rs.getInt("hstoreId");
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 
     @Override
     public String convertListToString(String[] kk) {

@@ -14,8 +14,6 @@ public class InitRetail {
     private static String customerFile = "customersList.csv";
     private static String inventoryFile = "inventoryList.csv";
     private static String productFile = "productList.csv";
-    private static String productSoldFile = "productsSoldList.csv";
-    private static String saleFile = "saleList.csv";
     private static String storeFile = "storeList.csv";
     private static String vendorFile = "vendorsList.csv";
 
@@ -43,7 +41,7 @@ public class InitRetail {
         //initializes and fills the database
         InitRetail ir = new InitRetail("~/h2/retail","user","password");
         Scanner input = new Scanner(System.in);
-        final boolean popTables = true;
+        final boolean popTables = false;
         Table customer = new Customer(conn,customerFile, popTables);
         Table store = new Store(conn,storeFile, popTables);
         Table vendor = new Vendor(conn,vendorFile, popTables);
