@@ -2,10 +2,7 @@ package main.java;
 /*
 @Author: Alex Brown
  */
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -13,9 +10,15 @@ import java.sql.Statement;
 import java.util.Scanner;
 
 public class Store extends Table{
-    public Store(Connection c,String filename) {
-        super(c);
-        populateTables(c,filename);
+
+    /**
+     * Constructs a new Store table
+     * @param c: The connection to the db
+     * @param filename: Filename to populate table
+     * @param populateTable: Whether the table needs to be populated
+     */
+    public Store(Connection c, String filename, boolean populateTable) {
+        super(c, filename, populateTable);
     }
 
     @Override
@@ -76,9 +79,9 @@ public class Store extends Table{
 
             Statement stmt = c.createStatement();
             stmt.execute(query);
-            BufferedReader reader = new BufferedReader(new FileReader(filename));
             String line;
             String insertQuery = "insert into Store values";
+
             while ((line = reader.readLine()) != null) {
                 if(line != null){
                     insertQuery += "(";

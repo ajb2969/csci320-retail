@@ -9,9 +9,15 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Sale extends Table{
-    public Sale(Connection c,String filename) {
-        super(c);
-        populateTables(c,filename);
+
+    /**
+     * Constructs a new Customer table
+     * @param c: The connection to the db
+     * @param filename: Filename to populate table
+     * @param populateTable: Whether the table needs to be populated
+     */
+    public Sale(Connection c, String filename, boolean populateTable) {
+        super(c, filename, populateTable);
     }
 
     @Override

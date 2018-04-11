@@ -4,18 +4,20 @@ package main.java;
 @Author: Alex Brown
  */
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
 
 public class Vendor extends Table{
-    public Vendor(Connection c,String filename) {
-        super(c);
-        populateTables(c,filename);
+    /**
+     * Constructs a new Vendor table
+     * @param c: The connection to the db
+     * @param filename: Filename to populate table
+     * @param populateTable: Whether the table needs to be populated
+     */
+    public Vendor(Connection c, String filename, boolean populateTable) {
+        super(c, filename, populateTable);
     }
 
     private String removeQuotes(String s){
@@ -54,8 +56,6 @@ public class Vendor extends Table{
                     + ");";
             Statement stmt = c.createStatement();
             stmt.execute(query);
-
-            BufferedReader reader = new BufferedReader(new FileReader(filename));
             String line;
             String insertQuery = "insert into Vendor values";
             while ((line = reader.readLine()) != null) {

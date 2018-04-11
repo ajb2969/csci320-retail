@@ -11,13 +11,13 @@ import static main.java.Customer.*;
 
 public class InitRetail {
     private static Connection conn;
-    private static String customerFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/customersList.csv";
-    private static String inventoryFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/inventoryList.csv";
-    private static String productFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/productList.csv";
-    private static String productSoldFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/productsSoldList.csv";
-    private static String saleFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/saleList.csv";
-    private static String storeFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/storeList.csv";
-    private static String vendorFile = "/Users/alexbrown/IdeaProjects/csci320-retail/csci320/src/main/resources/vendorsList.csv";
+    private static String customerFile = "customersList.csv";
+    private static String inventoryFile = "inventoryList.csv";
+    private static String productFile = "productList.csv";
+    private static String productSoldFile = "productsSoldList.csv";
+    private static String saleFile = "saleList.csv";
+    private static String storeFile = "storeList.csv";
+    private static String vendorFile = "vendorsList.csv";
 
     public InitRetail(String location,
                       String user,
@@ -43,9 +43,9 @@ public class InitRetail {
         //initializes and fills the database
         InitRetail ir = new InitRetail("~/h2/retail","user","password");
         Scanner input = new Scanner(System.in);
-        Table customer = new Customer(conn,customerFile);
-        Table store = new Store(conn,storeFile);
-        Table vendor = new Vendor(conn,vendorFile);
+        Table customer = new Customer(conn,customerFile, false);
+        Table store = new Store(conn,storeFile, false);
+        Table vendor = new Vendor(conn,vendorFile, false);
 
 
         //Table inventory = new Inventory(conn,inventoryFile);
@@ -54,7 +54,7 @@ public class InitRetail {
         //Table sale = new Sale(conn, saleFile);
 
 
-        String query = "";
+        String query;
         System.out.println("Welcome to JAKE'S!");
         System.out.print("Are you a member(Y/N): ");
         query = input.nextLine();
