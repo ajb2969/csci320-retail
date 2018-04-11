@@ -31,7 +31,7 @@ public abstract class Table {
         String complete_file_path = new File("csci320/src/main/resources/"+filename).getAbsolutePath();
         try {
             this.reader = new BufferedReader(new FileReader(complete_file_path));
-            if(populateTable) populateTables(c,filename);
+            if(populateTable) populateTables(c,complete_file_path);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
