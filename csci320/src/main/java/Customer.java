@@ -173,10 +173,6 @@ public class Customer extends Table{
         input.close();
     }
 
-
-
-
-
     static void startGuestLoop(){
         printHelp(customerType.Guest);
         Scanner input = new Scanner(System.in);

@@ -20,19 +20,52 @@ public class Product extends Table{
 
     @Override
     public String convertListToString(String[] kk) {
-        return String.format("%d,'%s','%s',%d,%d,'%s',%d");
+        if(kk[2].equals("") || kk[3].equals("")){
+            return String.format("'%s',%f,%f,'%s',%d,%d",
+                    kk[0],
+                    Float.parseFloat(kk[1]),
+                    null,
+                    null,
+                    Integer.parseInt(kk[4]),
+                    Integer.parseInt(kk[5])
+                    );
+        }
+        else{
+            if(kk[2].contains("/")){
+                String [] unit = kk[2].split("/");
+                double num = Double.parseDouble(unit[0]) / Double.parseDouble(unit[1]);
+                return String.format("'%s',%f,%f,'%s',%d,%d",
+                        kk[0],
+                        Float.parseFloat(kk[1]),
+                        num,
+                        kk[3],
+                        Integer.parseInt(kk[4]),
+                        Integer.parseInt(kk[5])
+                );
+            }
+            else{
+                return String.format("'%s',%f,%d,'%s',%d,%d",
+                        kk[0],
+                        Float.parseFloat(kk[1]),
+                        Integer.parseInt(kk[2]),
+                        kk[3],
+                        Integer.parseInt(kk[4]),
+                        Integer.parseInt(kk[5])
+                );
+            }
+        }
+
     }
 
     @Override
     public void populateTables(Connection c, String filename) {
         try {
             String query = "CREATE TABLE IF NOT EXISTS Product("
-                    + "upc INT NOT NULL,"
                     + "productType VARCHAR(150) NOT NULL ,"
-                    + "brand VARCHAR(150) NOT NULL ,"
-                    + "price NUMERIC(8,2) NOT NULL ,"
-                    + "quantityAmount INT NOT NULL ,"
-                    + "quantityType VARCHAR(150) NOT NULL ,"
+                    + "price NUMERIC(8,2) NOT NULL,"
+                    + "quantityAmount INT,"
+                    + "quantityType VARCHAR(150),"
+                    + "upc INT NOT NULL,"
                     + "vendorID INT NOT NULL"
                     + ");";
             Statement stmt = c.createStatement();

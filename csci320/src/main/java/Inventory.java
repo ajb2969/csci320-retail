@@ -22,8 +22,8 @@ public class Inventory extends Table {
     public void populateTables(Connection c, String filename) {
         try {
             String query = "CREATE TABLE IF NOT EXISTS Inventory("
-                    + "store_ID INT NOT NULL PRIMARY KEY ,"
-                    + "UPC INT NOT NULL,"
+                    + "store_ID INT NOT NULL,"
+                    + "UPC INT NOT NULL PRIMARY KEY,"
                     + "quantity INT NOT NULL"
                     + ");";
             Statement stmt = c.createStatement();
@@ -54,21 +54,6 @@ public class Inventory extends Table {
 
     @Override
     public String convertListToString(String[] kk) {
-        int one = Integer.parseInt(kk[0]);
-        int two;
-        String newKK1 = "";
-        if(kk[1].length() > 1){//makes sure every upc is of length 6(fits inside an integer)
-            for(int i = 0; i< 6; i++){
-                newKK1 +=kk[1].charAt(i);
-            }
-        }
-        if(newKK1.equals("")){
-            two = Integer.parseInt(kk[2]);
-        }
-        else{
-            two = Integer.parseInt(newKK1);
-        }
-        int three = Integer.parseInt(kk[2]);
-        return String.format("%d,%d,%d",one,two,three);
+        return String.format("%d,%d,%d",Integer.parseInt(kk[0]),Integer.parseInt(kk[1]),Integer.parseInt(kk[2]));
     }
 }

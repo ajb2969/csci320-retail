@@ -46,10 +46,9 @@ public class InitRetail {
         Table customer = new Customer(conn,customerFile);
         Table store = new Store(conn,storeFile);
         Table vendor = new Vendor(conn,vendorFile);
+        Table product = new Product(conn,productFile);
+        Table inventory = new Inventory(conn,inventoryFile);
 
-
-        //Table inventory = new Inventory(conn,inventoryFile);
-        //Table product = new Product(conn,productFile);
         //Table productSold = new ProductSold(conn,productSoldFile);
         //Table sale = new Sale(conn, saleFile);
 
