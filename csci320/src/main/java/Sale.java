@@ -34,8 +34,6 @@ public class Sale extends Table{
             Statement stmt = c.createStatement();
             stmt.execute(query);
 
-
-
         } catch (SQLException e) {
             e.printStackTrace();
         }

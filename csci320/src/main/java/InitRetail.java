@@ -43,13 +43,14 @@ public class InitRetail {
         //initializes and fills the database
         InitRetail ir = new InitRetail("~/h2/retail","user","password");
         Scanner input = new Scanner(System.in);
+
         Table customer = new Customer(conn,customerFile, false);
         Table store = new Store(conn,storeFile, false);
         Table vendor = new Vendor(conn,vendorFile, false);
 
+        Table product = new Product(conn,productFile, false);
+        Table inventory = new Inventory(conn,inventoryFile, false);
 
-        //Table inventory = new Inventory(conn,inventoryFile);
-        //Table product = new Product(conn,productFile);
         //Table productSold = new ProductSold(conn,productSoldFile);
         //Table sale = new Sale(conn, saleFile);
 

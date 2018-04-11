@@ -108,7 +108,7 @@ public class Customer extends Table{
 
     static String checkMemberCredentials(Connection conn, Scanner input){
         System.out.print("Enter your username: ");//username is first + lastname
-        String username = in    put.nextLine();
+        String username = input.nextLine();
         System.out.print("Enter your password: ");//password is zipcode
         String password = input.nextLine();
 
@@ -171,10 +171,6 @@ public class Customer extends Table{
         }
         input.close();
     }
-
-
-
-
 
     static void startGuestLoop(){
         printHelp(customerType.Guest);
