@@ -71,7 +71,7 @@ public class User {
     public static boolean checkMemberInput(){
         Scanner input = new Scanner(System.in);
         String  query = input.nextLine();
-        return query.matches("yes|y");
+        return query.toLowerCase().matches("yes|y");
     }
 
     public static User identifyUser(){
