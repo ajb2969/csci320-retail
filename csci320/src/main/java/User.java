@@ -147,7 +147,8 @@ public class User {
     private static HashMap<String, Command> createGuestCommands(){
         HashMap<String, Command> commands = new HashMap<String, Command>();
         commands.put("registeraccount", new Logout());
-        commands.put("location", new Location());
+        commands.put("printlocation", new PrintLocation());
+        commands.put("changelocation", new PrintLocation());
         commands.put("inventory", new Logout());
         commands.put("sort", new Logout());
         commands.put("add", new Logout());
@@ -165,7 +166,8 @@ public class User {
     private static HashMap<String, Command> createMemberCommands(){
         HashMap<String, Command> commands = new HashMap<String, Command>();
         commands.put("history", new Logout());
-        commands.put("location", new Location());
+        commands.put("printlocation", new PrintLocation());
+        commands.put("changelocation", new PrintLocation());
         commands.put("inventory", new Logout());
         commands.put("sort", new Logout());
         commands.put("add", new Logout());
@@ -184,7 +186,8 @@ public class User {
         HashMap<String, Command> commands = new HashMap<String, Command>();
         commands.put("registeraccount", new Logout());
         commands.put("history", new Logout());
-        commands.put("location", new Location());
+        commands.put("printlocation", new PrintLocation());
+        commands.put("changelocation", new PrintLocation());
         commands.put("inventory", new Logout());
         commands.put("sort", new Logout());
         commands.put("add", new Logout());
