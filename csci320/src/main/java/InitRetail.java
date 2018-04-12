@@ -39,20 +39,26 @@ public class InitRetail {
 
     public static void main(String [] args){
         //initializes and fills the database
-        InitRetail ir = new InitRetail("~/h2/retail","user","password");
-        Scanner input = new Scanner(System.in);
+        new InitRetail("~/h2/retail","user","password");
         final boolean popTables = false;
-        Table customer = new Customer(conn,customerFile, popTables);
-        Table store = new Store(conn,storeFile, popTables);
-        Table vendor = new Vendor(conn,vendorFile, popTables);
-        Table product = new Product(conn,productFile, popTables);
-        Table inventory = new Inventory(conn,inventoryFile, popTables);
+        new Customer(conn,customerFile, popTables);
+        new Store(conn,storeFile, popTables);
+        new Vendor(conn,vendorFile, popTables);
+        new Product(conn,productFile, popTables);
+        new Inventory(conn,inventoryFile, popTables);
+        start();
 
 
-        String query;
+    }
+
+    /**
+     * Start UI
+     */
+    private static void start(){
         System.out.println("Welcome to JAKE'S!");
         System.out.print("Are you a member(Y/N): ");
-        query = input.nextLine();
+        Scanner input = new Scanner(System.in);
+        String  query = input.nextLine();
         Boolean member = checkMemberInput(input,query);
         if(member){
             String user = checkMemberCredentials(conn,input);
@@ -62,8 +68,7 @@ public class InitRetail {
             else{
                 startMemberLoop(user);
             }
-        }
-        else{
+        }else{
             startGuestLoop();
         }
 
