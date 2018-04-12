@@ -5,3 +5,7 @@ h2-latest.jar
 .idea/
 
 csci320/out/
+
+out/
+
+*.iml

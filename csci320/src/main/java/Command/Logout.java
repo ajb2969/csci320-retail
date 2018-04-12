@@ -12,6 +12,7 @@ public class Logout implements Command{
     @Override
     public void execute(String[] args) {
         // Add sql stuff here Maybe print stuff too
+        System.out.println("EXITING");
         System.exit(0);
     }
 }

@@ -16,7 +16,7 @@ import static main.java.Store.changeStore;
 
 public abstract class Table {
     /** DB connection **/
-    private static Connection conn;
+    protected static Connection conn;
 
     /** Buffer reader for the csv file **/
     protected BufferedReader reader;
