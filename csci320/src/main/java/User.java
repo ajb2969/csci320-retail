@@ -102,12 +102,12 @@ public class User {
         while(!(line.toLowerCase().equals("logout"))){
             System.out.print(">");
             line = input.nextLine();
-            parseComand(line);
+            parseCommand(line);
             printHelp(UserType.Member); // FIX
         }
     }
 
-    private void parseComand(String line){
+    private void parseCommand(String line){
         String[] args = line.split(" ");
         if(args.length > 0){
             if(this.commands.containsKey(args[0]))
