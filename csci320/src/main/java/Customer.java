@@ -122,8 +122,8 @@ public class Customer extends Table{
                               rs.getString("lname").toLowerCase();
                 int p = rs.getInt("zipcode");
                 if(user.equals(username.toLowerCase()) && Integer.parseInt(password) == p){
-                    currUser = rs.getString("fname");
-                    return rs.getString("fname");
+                    currUser = rs.getString("fname") +","+rs.getString("lname");
+                    return currUser;
                 }
             }
             currUser = null;
