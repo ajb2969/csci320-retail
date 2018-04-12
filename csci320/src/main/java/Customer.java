@@ -111,6 +111,8 @@ public class Customer extends Table{
             return null;
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            System.err.println("Incorrect member credentials. Try again.");
         }
         return null;
     }
