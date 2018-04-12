@@ -15,7 +15,7 @@ public class User {
     private UserType type;
 
     // Username's name
-    private String userName;
+    private static String userName;
     
     // HashMap of commands available to the user
     private HashMap<String, Command> commands;
@@ -56,7 +56,13 @@ public class User {
         return createGuestUser();
     }
 
-
+    /**
+     * Getter for the username
+     * @return
+     */
+    public String getUserName() {
+        return userName;
+    }
     /**
      * Asks the user if it is a member or not
      * @return whether the user specified to be a registered
@@ -141,7 +147,7 @@ public class User {
     private static HashMap<String, Command> createGuestCommands(){
         HashMap<String, Command> commands = new HashMap<String, Command>();
         commands.put("registeraccount", new Logout());
-        commands.put("location", new Logout());
+        commands.put("location", new Location());
         commands.put("inventory", new Logout());
         commands.put("sort", new Logout());
         commands.put("add", new Logout());
@@ -159,7 +165,7 @@ public class User {
     private static HashMap<String, Command> createMemberCommands(){
         HashMap<String, Command> commands = new HashMap<String, Command>();
         commands.put("history", new Logout());
-        commands.put("location", new Logout());
+        commands.put("location", new Location());
         commands.put("inventory", new Logout());
         commands.put("sort", new Logout());
         commands.put("add", new Logout());
@@ -178,7 +184,7 @@ public class User {
         HashMap<String, Command> commands = new HashMap<String, Command>();
         commands.put("registeraccount", new Logout());
         commands.put("history", new Logout());
-        commands.put("location", new Logout());
+        commands.put("location", new Location());
         commands.put("inventory", new Logout());
         commands.put("sort", new Logout());
         commands.put("add", new Logout());
