@@ -12,6 +12,7 @@ public class Location implements Command{
     public void execute(String [] args) {
         User ur = User.identifyUser();
         try {
+
             String userName = ur.getUserName();
             String query = " SELECT id, address, city, state, zipcode, country " +
                             "FROM Store";
@@ -28,6 +29,7 @@ public class Location implements Command{
             System.out.println("Please select the Store Id that you're in:");
             System.out.print(">");
             int id = input.nextInt();
+            Store.changeStore(ur.getUserName(), id);
         } catch (SQLException e) {
             e.printStackTrace();
         } catch (NullPointerException ne) {
