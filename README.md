@@ -16,3 +16,5 @@
 > - Any data needed to populate the database.
 > - A README explaining the process needed to build the project.
 > - A README explaining the basic operation of the application.
+* README - Installation
+* 1) Load the program in Intellij
