@@ -14,9 +14,9 @@ public class PrintLocation implements Command{
 
             String query = " SELECT id, address, city, state, zipcode, country " +
                             "FROM Store";
-            Connection conn = InitRetail.InitConnection("~/h2/retail","user","password");
+
             Scanner input = new Scanner(System.in);
-            Statement s = conn.createStatement();
+            Statement s = Sale.getConnection().createStatement();
             ResultSet rs = s.executeQuery(query);
             while (rs.next()) {
                 System.out.println(rs.getInt("id") + " - " +

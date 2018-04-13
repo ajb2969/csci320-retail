@@ -40,7 +40,9 @@ public class Sale extends Table{
 
 
     }
-
+    public static Connection getConnection() {
+        return conn;
+    }
     @Override
     public String convertListToString(String[] kk) {
         return null;
