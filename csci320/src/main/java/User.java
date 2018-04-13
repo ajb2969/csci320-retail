@@ -63,7 +63,7 @@ public class User {
                                        String address, String country, String state,
                                        String city, int zipcode, String email,
                                        int homeStoreId) {
-        // TODO Implement the register account backend
+        // TODO Implement the register account backend in SQL
     }
     /**
      * Getter for the username
@@ -124,7 +124,7 @@ public class User {
     }
 
     private void parseCommand(String line){
-        String[] args = line.split(" ");
+        String[] args = line.toLowerCase().split(" ");
         if(args.length > 0 && args.length < 2){
             if(this.commands.containsKey(args[0]))
                 this.commands.get(args[0]).execute(args);
