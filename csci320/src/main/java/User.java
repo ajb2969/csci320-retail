@@ -1,5 +1,7 @@
 package main.java;
 import main.java.Command.*;
+import main.java.Command.Inventory;
+
 import java.util.Scanner;
 import java.util.HashMap;
 
@@ -49,7 +51,7 @@ public class User {
             case Employee:
                 return new User(type, createEmployeeCommands());
             case Member:
-            return new User(type, createMemberCommands());
+                return new User(type, createMemberCommands());
             default:
                 System.out.println("Incorrect user type, defaulting to guest");
         }
@@ -84,8 +86,9 @@ public class User {
         String userName = Customer.checkMemberCredentials(username, password);//fname , lname
         try{
             // Create a user by checking its type
-            User new_user = createUser(Customer.checkUserType(username));
-            new_user.setName(userName);
+            User new_user = createUser(Customer.checkUserType(userName));
+            String [] uN = userName.split(":");
+            new_user.setName(uN[0] + " " + uN[1]);
             return new_user;
         }catch(IllegalArgumentException e){
             System.out.println("Error identifying user type. System will exit now");
@@ -102,7 +105,7 @@ public class User {
     public void startLoop(){
         if(this.userName != null)
             System.out.println("Hello " + this.userName);
-        printHelp(UserType.Member); // FIX
+        printHelp(this.type); // FIX
         Scanner input = new Scanner(System.in);
         String line = "";
         while(!(line.toLowerCase().equals("logout"))){
@@ -115,7 +118,7 @@ public class User {
 
     private void parseCommand(String line){
         String[] args = line.split(" ");
-        if(args.length > 0){
+        if(args.length > 0 && args.length < 2){
             if(this.commands.containsKey(args[0]))
                 this.commands.get(args[0]).execute(args);
             else System.out.println("Undefined command: " + line);
@@ -146,14 +149,15 @@ public class User {
      */
     private static HashMap<String, Command> createGuestCommands(){
         HashMap<String, Command> commands = new HashMap<String, Command>();
-        commands.put("registeraccount", new Logout());
+        commands.put("registeraccount", new RegisterAccount());
+        commands.put("history", new History());
         commands.put("printlocation", new PrintLocation());
         commands.put("changelocation", new ChangeLocation());
-        commands.put("inventory", new Logout());
-        commands.put("sort", new Logout());
-        commands.put("add", new Logout());
-        commands.put("cart", new Logout());
-        commands.put("checkout", new Logout());
+        commands.put("inventory", new Inventory());
+        commands.put("sort", new Sort());
+        commands.put("add", new Add());
+        commands.put("cart", new Cart());
+        commands.put("checkout", new Checkout());
         commands.put("logout", new Logout());
         return commands;
     }
@@ -165,14 +169,14 @@ public class User {
      */
     private static HashMap<String, Command> createMemberCommands(){
         HashMap<String, Command> commands = new HashMap<String, Command>();
-        commands.put("history", new Logout());
+        commands.put("history", new History());
         commands.put("printlocation", new PrintLocation());
         commands.put("changelocation", new ChangeLocation());
-        commands.put("inventory", new Logout());
-        commands.put("sort", new Logout());
-        commands.put("add", new Logout());
-        commands.put("cart", new Logout());
-        commands.put("checkout", new Logout());
+        commands.put("inventory", new Inventory());
+        commands.put("sort", new Sort());
+        commands.put("add", new Add());
+        commands.put("cart", new Cart());
+        commands.put("checkout", new Checkout());
         commands.put("logout", new Logout());
         return commands;
     }
@@ -184,19 +188,19 @@ public class User {
      */
     private static HashMap<String, Command> createEmployeeCommands(){
         HashMap<String, Command> commands = new HashMap<String, Command>();
-        commands.put("registeraccount", new Logout());
-        commands.put("history", new Logout());
+        commands.put("registeraccount", new RegisterAccount());
+        commands.put("history", new History());
         commands.put("printlocation", new PrintLocation());
         commands.put("changelocation", new ChangeLocation());
-        commands.put("inventory", new Logout());
-        commands.put("sort", new Logout());
-        commands.put("add", new Logout());
-        commands.put("cart", new Logout());
-        commands.put("checkout", new Logout());
+        commands.put("inventory", new Inventory());
+        commands.put("sort", new Sort());
+        commands.put("add", new Add());
+        commands.put("cart", new Cart());
+        commands.put("checkout", new Checkout());
         commands.put("logout", new Logout());
-        commands.put("inventoryadd", new Logout());
-        commands.put("inventoryremove", new Logout());
-        commands.put("restock", new Logout());
+        commands.put("inventoryadd", new InventoryAdd());
+        commands.put("inventoryremove", new InventoryRemove());
+        commands.put("restock", new Restock());
         return commands;
     }
     
