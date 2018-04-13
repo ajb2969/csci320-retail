@@ -7,6 +7,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 public class Store extends Table{
 
@@ -92,7 +93,7 @@ public class Store extends Table{
             }
             int rep = insertQuery.lastIndexOf(",");
             String fixString = insertQuery.substring(0,rep);
-            fixString+="where select * from Store";//where count == 0
+            fixString+=";";
 
             Statement s = c.createStatement();
             s.execute(fixString);
@@ -108,6 +109,7 @@ public class Store extends Table{
 
     public static void changeStore(String curruser, int id) {
         try {
+
             Connection conn = InitRetail.InitConnection("~/h2/retail","user","password");
             Statement s = conn.createStatement();
             String query = String.format("SELECT id " +
