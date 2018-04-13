@@ -3,7 +3,6 @@
  */
 package main.java;
 
-import javax.swing.plaf.nimbus.State;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;

@@ -1,7 +1,11 @@
 *.class
 
 h2-latest.jar
-
+.DS_Store
 .idea/
 
 csci320/out/
+
+out/
+
+*.iml

@@ -9,7 +9,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.*;
 
 public class Customer extends Table{
 
@@ -21,26 +20,7 @@ public class Customer extends Table{
      */
     public Customer(Connection c, String filename, boolean populateTable) {
         super(c, filename, populateTable);
-        populateCommands();
     }
-    enum customerType{
-        Guest,
-        Member,
-        Employee,
-    }
-
-    private static HashMap<customerType,List<String>> commands;
-    private static String currUser;
-    private void populateCommands(){
-        commands = new HashMap<customerType,List<String>>();
-        commands.put(customerType.Guest, Arrays.asList(
-                "registeraccount","location","inventory","sort","add","cart", "checkout","logout"));
-        commands.put(customerType.Member, Arrays.asList(
-                "location","inventory","sort","add","cart","history","checkout","logout"));
-        commands.put(customerType.Employee, Arrays.asList(
-                "registeraccount","location","inventory","sort","add","cart","history","checkout","logout","inventoryadd","inventoryremove", "restock"));
-    }
-
 
     @Override
     public String convertListToString(String [] kk){
@@ -75,7 +55,7 @@ public class Customer extends Table{
                         + "country VARCHAR(150) NULL,"
                         + "email VARCHAR(150) NULL,"
                         + "hstoreId INT NULL,"
-                        + "customerType VARCHAR(45) NOT NULL,"
+                        + "UserType VARCHAR(45) NOT NULL,"
                         + ");" ;
 
             Statement stmt = c.createStatement();
@@ -106,15 +86,17 @@ public class Customer extends Table{
         }
     }
 
-    static String checkMemberCredentials(Connection conn, Scanner input){
-        System.out.print("Enter your username: ");//username is first + lastname
-        String username = input.nextLine();
-        System.out.print("Enter your password: ");//password is zipcode
-        String password = input.nextLine();
-
+    /**
+     * Checks if the given username and password match.
+     * If it does, it returns the name of the user.
+     * @param username: The username to look for
+     * @param password: The pass to verify credentials
+     * @return The name of the user, if verified
+     */
+    public static String checkMemberCredentials(String username, String password){
         try{
-            String query = "Select fname,lname,zipcode from Customer where customerType = " +
-                    String.valueOf(customerType.valueOf(customerType.Member.toString()).ordinal()); //2 is a member
+            String query = "Select fname,lname,zipcode from Customer where UserType = " +
+                    String.valueOf(UserType.valueOf(UserType.Member.toString()).ordinal()); //2 is a member
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);//pulls all members
             while(rs.next()){
@@ -122,78 +104,24 @@ public class Customer extends Table{
                               rs.getString("lname").toLowerCase();
                 int p = rs.getInt("zipcode");
                 if(user.equals(username.toLowerCase()) && Integer.parseInt(password) == p){
-                    currUser = rs.getString("fname") +","+rs.getString("lname");
-                    return currUser;
+                    return rs.getString("fname");
                 }
             }
-            currUser = null;
             return null;
         } catch (SQLException e) {
             e.printStackTrace();
+        } catch (NullPointerException e) {
+            System.err.println("Incorrect member credentials. Try again.");
         }
         return null;
     }
-
-    static boolean checkMemberInput(Scanner input, String query){
-        if(query.toLowerCase().equals("yes") ||
-                query.toLowerCase().equals("y"))
-        {return true;}
-        else if(query.toLowerCase().equals("no") ||
-                query.toLowerCase().equals("n"))
-        {return false;}
-        else{
-            while(!((query.toLowerCase().equals("yes") || query.toLowerCase().equals("y"))
-                    || (query.toLowerCase().equals("no") || query.toLowerCase().equals("n")))){
-                System.out.print("Are you a member(Y/N): ");
-                query = input.nextLine();
-            }
-            if(query.toLowerCase().equals("yes") ||
-                    query.toLowerCase().equals("y"))
-            {return true;}
-            else
-            {return false;}
-        }
+    /**
+     * Given an username, return the type
+     */
+    public static UserType checkUserType(String username){
+        return UserType.Member;
     }
 
-
-    static void startMemberLoop(String user){
-        System.out.println("Hello " + user);
-        printHelp(customerType.Member);
-        Scanner input = new Scanner(System.in);
-        String line = "";
-        while(!(line.toLowerCase().equals("logout"))){
-            System.out.print(">");
-            line = input.nextLine();
-            parseCommand(currUser,commands.get(customerType.Member),line);
-            printHelp(customerType.Member);
-            System.out.print(">");
-            line = input.nextLine();
-        }
-        input.close();
-    }
-
-    static void startGuestLoop(){
-        printHelp(customerType.Guest);
-        Scanner input = new Scanner(System.in);
-        String line = "";
-        while(!(line.toLowerCase().equals("logout"))){
-            System.out.print(">");
-            String command = input.nextLine();
-            parseCommand(currUser,commands.get(customerType.Guest), command);
-            printHelp(customerType.Guest);
-            System.out.print(">");
-            command = input.nextLine();
-        }
-        input.close();
-        //change guest entry(id = 0) back to online store
-    }
-
-    private static void printHelp(customerType cT) {
-
-        for (String i: commands.get(cT)){
-            System.out.println(i);
-        }
-    }
 
 
 

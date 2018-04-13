@@ -2,24 +2,28 @@ package main.java;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.*;
-import static main.java.Customer.*;
 
 /*
+InitRetail: The main system client.
+
+IT initializes the database, if specified, and it runs the system input loop.
+
 @Author: Alex Brown
- */
+@Author: Kevin Bastian
+ 
+*/
 
 public class InitRetail {
-    private static Connection conn;
-    private static String customerFile = "customersList.csv";
-    private static String inventoryFile = "inventoryList.csv";
-    private static String productFile = "productList.csv";
-    private static String storeFile = "storeList.csv";
-    private static String vendorFile = "vendorsList.csv";
+    private static final String customerFile = "customersList.csv";
+    private static final String inventoryFile = "inventoryList.csv";
+    private static final String productFile = "productList.csv";
+    private static final String storeFile = "storeList.csv";
+    private static final String vendorFile = "vendorsList.csv";
 
-    public InitRetail(String location,
-                      String user,
-                      String password){
+
+
+    public static Connection InitConnection(String location, String user, String password){
+        Connection conn;
         try {
             //This needs to be on the front of your location
             String url = "jdbc:h2:" + location;
@@ -28,45 +32,45 @@ public class InitRetail {
             Class.forName("org.h2.Driver");
 
             //creates the connection
-            conn = DriverManager.getConnection(url,
-                    user,
-                    password);
+            conn = DriverManager.getConnection(url, user, password);
+            return conn;
         } catch (SQLException | ClassNotFoundException e) {
-            //You should handle this better
-            e.printStackTrace();
+            System.out.println("There was an error connecting to the database. Client will now close.");
+            // System.exit(-1);
         }
+        return null;
+        
     }
 
     public static void main(String [] args){
         //initializes and fills the database
-        InitRetail ir = new InitRetail("~/h2/retail","user","password");
-        Scanner input = new Scanner(System.in);
+        Connection conn = InitConnection("~/h2/retail","user","password");
         final boolean popTables = false;
-        Table customer = new Customer(conn,customerFile, popTables);
-        Table store = new Store(conn,storeFile, popTables);
-        Table vendor = new Vendor(conn,vendorFile, popTables);
-        Table product = new Product(conn,productFile, popTables);
-        Table inventory = new Inventory(conn,inventoryFile, popTables);
+        new Customer(conn,customerFile, popTables);
+        new Store(conn,storeFile, popTables);
+        new Vendor(conn,vendorFile, popTables);
+        new Product(conn,productFile, popTables);
+        new Inventory(conn,inventoryFile, popTables);
+        start();
+    }
 
-
-        String query;
+    /**
+     * Start UI
+     */
+    private static void start(){
+        // Display welcome message and start user loop
         System.out.println("Welcome to JAKE'S!");
         System.out.print("Are you a member(Y/N): ");
-        query = input.nextLine();
-        Boolean member = checkMemberInput(input,query);
-        if(member){
-            String user = checkMemberCredentials(conn,input);
-            if(user == null){
-                startGuestLoop();
-            }
-            else{
-                startMemberLoop(user);
-            }
-        }
-        else{
-            startGuestLoop();
+        // By default, the user is a guest
+        User user = User.createGuestUser();
+
+        // Check if the user specifies to be a member, then try to identify it
+        if(User.checkMemberInput()){
+            user = User.identifyUser();
         }
 
+        // Begin Loop
+        user.startLoop();
 
     }
 }

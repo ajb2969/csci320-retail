@@ -7,7 +7,6 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.Scanner;
 
 public class Store extends Table{
 
@@ -93,7 +92,7 @@ public class Store extends Table{
             }
             int rep = insertQuery.lastIndexOf(",");
             String fixString = insertQuery.substring(0,rep);
-            fixString+=";";
+            fixString+="where select * from Store";//where count == 0
 
             Statement s = c.createStatement();
             s.execute(fixString);
@@ -107,27 +106,19 @@ public class Store extends Table{
         }
     }
 
-    static void changeStore(Connection conn, String curruser, Scanner input){
-        try{
-            String query = "Select id,address,city,state,zipcode,country from Store";
+    public static void changeStore(String curruser, int id) {
+        try {
+            Connection conn = InitRetail.InitConnection("~/h2/retail","user","password");
             Statement s = conn.createStatement();
-            ResultSet rs = s.executeQuery(query);
-            while(rs.next()){
-                System.out.println(rs.getInt("id") + " - " +
-                        rs.getString("address") + " " + rs.getString("city") + " " +
-                        rs.getString("state") + " " + rs.getString("zipcode") + " "
-                        + rs.getString("country"));
-            }
-            System.out.println("Please select the Store Id that you're in:");
-            System.out.print(">");
-            int id = input.nextInt();
-            query = String.format("select id from Customer where fname = \'%s\';",curruser);
+            String query = String.format("SELECT id " +
+                                        "FROM Customer " +
+                                        "WHERE fname = \'%s\';",curruser);
             ResultSet r  = s.executeQuery(query);
             int getUserId = 0;
-            while(r.next()){
+            while(r.next()) {
                 getUserId = r.getInt("id");
             }
-            query = "update Customer set hstoreID = "+ id +" where id = " + getUserId;
+            query = "UPDATE Customer SET hstoreID = "+ id +" WHERE id = " + getUserId;
             s.execute(query);
             System.out.println("You are in Jake's located at ");//+ + l.get(id)[2]);//update homestore in db
         }  catch (SQLException e) {
