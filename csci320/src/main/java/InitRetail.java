@@ -21,9 +21,9 @@ public class InitRetail {
     private static final String vendorFile = "vendorsList.csv";
 
 
-
+    private static Connection conn;
     public static Connection InitConnection(String location, String user, String password){
-        Connection conn;
+
         try {
             //This needs to be on the front of your location
             String url = "jdbc:h2:" + location;
@@ -42,10 +42,14 @@ public class InitRetail {
         
     }
 
+    public static Connection getConnection(){
+        return conn;
+    }
+
     public static void main(String [] args){
         //initializes and fills the database
         Connection conn = InitConnection("~/h2/retail","user","password");
-        final boolean popTables = false;
+        final boolean popTables = true;
         new Customer(conn,customerFile, popTables);
         new Store(conn,storeFile, popTables);
         new Vendor(conn,vendorFile, popTables);

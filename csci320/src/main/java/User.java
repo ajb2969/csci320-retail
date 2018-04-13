@@ -112,7 +112,7 @@ public class User {
     public void startLoop(){
         if(this.userName != null)
             System.out.println("Hello " + this.userName);
-        printHelp(this.type); // FIX
+        printHelp(this.type);
         Scanner input = new Scanner(System.in);
         String line = "";
         while(!(line.toLowerCase().equals("logout"))){
@@ -124,10 +124,12 @@ public class User {
     }
 
     private void parseCommand(String line){
-        String[] args = line.toLowerCase().split(" ");
+        String[] args = line.trim().toLowerCase().split(" ");
         if(args.length > 0 && args.length < 2){
             if(this.commands.containsKey(args[0]))
-                this.commands.get(args[0]).execute(args);
+                this.commands.get(args[0]).execute(new String[]{
+                        this.userName
+                });
             else System.out.println("Undefined command: " + line);
                 
         }
@@ -195,10 +197,9 @@ public class User {
      */
     private static HashMap<String, Command> createEmployeeCommands(){
         HashMap<String, Command> commands = new HashMap<String, Command>();
-        commands.put("registeraccount", new RegisterAccount());
         commands.put("history", new History());
         commands.put("printlocation", new PrintLocation());
-        commands.put("changelocation", new ChangeLocation());
+        commands.put("changelocation", new ChangeLocation());//can work at any location
         commands.put("inventory", new Inventory());
         commands.put("sort", new Sort());
         commands.put("add", new Add());

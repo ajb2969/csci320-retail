@@ -33,9 +33,8 @@ public class RegisterAccount implements Command{
             String email = input.nextLine();
             System.out.print("Please enter your homestoreID: ");
             int homeId = input.nextInt();
-            //main.java.User.registerAccount();
-            // TODO Add the backend func call in User
-        } catch (IllegalArgumentException e) {
+            // TODO Add the backend func call
+        } catch (IllegalArgumentException | InputMismatchException e) {
             System.err.println("Illegal RegisterAccount command input.");
         }
     }

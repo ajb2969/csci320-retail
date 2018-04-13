@@ -11,6 +11,10 @@ import java.util.Scanner;
 
 /**
  * PrintLocation Command that prints all of the location
+ *
+ * @author jahongiramirkulov
+ * @version 04/13/18
+ *
  */
 public class PrintLocation implements Command{
 
@@ -19,6 +23,6 @@ public class PrintLocation implements Command{
      * @param args: printlocation command
      */
     public void execute(String [] args) {
-        Store.printStores();
+        Store.printStores(args[0]);//contains username
     }
 }
