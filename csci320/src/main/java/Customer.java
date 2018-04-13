@@ -4,7 +4,6 @@ package main.java;
 @Author: Alex Brown
  */
 
-import javax.swing.plaf.nimbus.State;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -120,7 +119,6 @@ public class Customer extends Table{
      * Given an username, return the type
      */
     public static UserType checkUserType(String username){
-        UserType ut;
         String [] name = username.split(",");//[fname,lname]
         try{
             //gets usertype of person
