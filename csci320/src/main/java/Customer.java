@@ -4,6 +4,7 @@ package main.java;
 @Author: Alex Brown
  */
 
+import javax.swing.plaf.nimbus.State;
 import java.io.*;
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -104,7 +105,7 @@ public class Customer extends Table{
                               rs.getString("lname").toLowerCase();
                 int p = rs.getInt("zipcode");
                 if(user.equals(username.toLowerCase()) && Integer.parseInt(password) == p){
-                    return rs.getString("fname");
+                    return rs.getString("fname" ) + "," + rs.getString("lname" );
                 }
             }
             return null;
@@ -119,7 +120,24 @@ public class Customer extends Table{
      * Given an username, return the type
      */
     public static UserType checkUserType(String username){
-        return UserType.Member;
+        UserType ut;
+        String [] name = username.split(",");//[fname,lname]
+        try{
+            //gets usertype of person
+            String query = "select UserType from Customer where fname = " + name[0] + " and lname = " + name[1];
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            while(rs.next()){
+                int type = Integer.parseInt(rs.getString("UserType"));
+                switch (type) {
+                    case 1:return UserType.Member;
+                    case 2:return UserType.Employee;
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return UserType.Guest;
     }
 
 

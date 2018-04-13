@@ -68,7 +68,6 @@ public class InitRetail {
         if(User.checkMemberInput()){
             user = User.identifyUser();
         }
-
         // Begin Loop
         user.startLoop();
 

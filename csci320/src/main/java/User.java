@@ -81,7 +81,7 @@ public class User {
         System.out.print("Enter your password: ");//password is zipcode
         String password = input.nextLine();
         // Get the Name of the User
-        String userName = Customer.checkMemberCredentials(username, password);
+        String userName = Customer.checkMemberCredentials(username, password);//fname , lname
         try{
             // Create a user by checking its type
             User new_user = createUser(Customer.checkUserType(username));
@@ -118,7 +118,7 @@ public class User {
         if(args.length > 0){
             if(this.commands.containsKey(args[0]))
                 this.commands.get(args[0]).execute(args);
-            else System.out.println("Undefinied command: " + line);
+            else System.out.println("Undefined command: " + line);
                 
         }
     }
