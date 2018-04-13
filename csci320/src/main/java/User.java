@@ -57,6 +57,12 @@ public class User {
         return createGuestUser();
     }
 
+    public static void registerAccount(String first, String middle, String last,
+                                       String address, String country, String state,
+                                       String city, int zipcode, String email,
+                                       int homeStoreId) {
+        // TODO Implement the register account backend
+    }
     /**
      * Getter for the username
      * @return the username
