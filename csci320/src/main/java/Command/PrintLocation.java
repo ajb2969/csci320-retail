@@ -11,6 +11,10 @@ import java.util.Scanner;
 
 /**
  * PrintLocation Command that prints all of the location
+ *
+ * @author jahongiramirkulov
+ * @version 04/13/18
+ *
  */
 public class PrintLocation implements Command{
 
