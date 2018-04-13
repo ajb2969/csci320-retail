@@ -107,6 +107,28 @@ public class Store extends Table{
         }
     }
 
+    /**
+     * Prints all of the stores and its locations
+     */
+    public static void printStores() {
+        try {
+            String query = " SELECT id, address, city, state, zipcode, country " +
+                    "FROM Store";
+            Scanner input = new Scanner(System.in);
+            Statement s = Sale.getConnection().createStatement();
+            ResultSet rs = s.executeQuery(query);
+            while (rs.next()) {
+                System.out.println(rs.getInt("id") + " - " +
+                        rs.getString("address") + " " + rs.getString("city") + " " +
+                        rs.getString("state") + " " + rs.getString("zipcode") + " "
+                        + rs.getString("country"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (NullPointerException ne) {
+            System.out.println("Unable to validate user. Try again.");
+        }
+    }
     public static void changeStore(String curruser, int id) {
         try {
 
