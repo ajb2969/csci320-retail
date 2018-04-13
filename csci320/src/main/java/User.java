@@ -39,6 +39,7 @@ public class User {
         return new User(UserType.Guest, createGuestCommands());
     }
 
+
     /**
      * Creates a user given a type
      * @param type: The user type enum
@@ -60,9 +61,9 @@ public class User {
 
     /**
      * Getter for the username
-     * @return
+     * @return the username
      */
-    public String getUserName() {
+    public static String getUserName() {
         return userName;
     }
     /**

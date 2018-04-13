@@ -1,6 +1,9 @@
 package main.java.Command;
 
 import main.java.Store;
+import main.java.User;
+
+import java.util.Scanner;
 
 /**
  * @author jahongiramirkulov
@@ -12,11 +15,16 @@ import main.java.Store;
 public class ChangeLocation implements Command{
 
     /**
+     * ChangeLocation execute command that changes the location
+     * @param args: change command
      *
-     * @param args: Given arguments for the command to be fully
      */
     @Override
     public void execute(String[] args) {
-
+        try {
+            Store.changeStore(User.getUserName(), Integer.parseInt(args[1]));
+        } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException ae) {
+            System.err.println("Illegal command. Format: changelocation <storeid>");
+        }
     }
 }
