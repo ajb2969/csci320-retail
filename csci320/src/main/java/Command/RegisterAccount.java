@@ -34,7 +34,7 @@ public class RegisterAccount implements Command{
             System.out.print("Please enter your homestoreID: ");
             int homeId = input.nextInt();
             // TODO Add the backend func call
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException | InputMismatchException e) {
             System.err.println("Illegal RegisterAccount command input.");
         }
     }
