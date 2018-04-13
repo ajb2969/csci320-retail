@@ -113,7 +113,7 @@ public class User {
             System.out.print(">");
             line = input.nextLine();
             parseCommand(line);
-            printHelp(UserType.Member); // FIX
+            printHelp(this.type); // FIX
         }
     }
 
