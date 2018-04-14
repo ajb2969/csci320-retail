@@ -53,13 +53,21 @@ public class Checkout implements Command {
                 while(rs.next()){
                     userID = rs.getString("ID");
                 }
-
-                String createSale = "Insert into Sale values (0,";//0 is for auto increment
+                String getSaleID = "Select max(saleID) from Sale";
+                PreparedStatement ps = c.prepareStatement(getSaleID);
+                rs = ps.executeQuery();
+                int saleID = 0;
+                while(rs.next()){
+                    saleID = rs.getInt(1);
+                }
+                saleID +=1;
+                String createSale = "Insert into Sale values (";//0 is for auto increment
+                createSale += String.valueOf(saleID) + ",";
                 createSale += storeID +",";
                 createSale += cost + ",";
                 createSale += userID + ",";
                 createSale += "?,?);";
-                PreparedStatement ps = c.prepareStatement(createSale);
+                ps = c.prepareStatement(createSale);
 
                 ps.setTimestamp(1,new Timestamp(System.currentTimeMillis()));
                 ps.setDate(2,new Date(System.currentTimeMillis()));
@@ -68,13 +76,14 @@ public class Checkout implements Command {
 
                 //saleID, storeID, cost, customerID, saleTime(timestamp), date(Date)
 
-
-                int saleID = 0;
+/*
+                saleID = 0;
                 ps = c.prepareStatement("Select max(saleID) from Sale");
                 rs = ps.executeQuery();
                 while(rs.next()){
                     saleID = rs.getInt(1);
                 }
+*/
 
                 //add ProductSold entry connected to Sale
                 String insertProducts = "Insert into ProductSold values(";
