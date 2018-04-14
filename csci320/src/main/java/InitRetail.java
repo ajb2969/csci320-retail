@@ -49,7 +49,7 @@ public class InitRetail {
     public static void main(String [] args){
         //initializes and fills the database
         Connection conn = InitConnection("~/h2/retail","user","password");
-        final boolean popTables = true;
+        final boolean popTables = false;
         new Customer(conn,customerFile, popTables);
         new Store(conn,storeFile, popTables);
         new Vendor(conn,vendorFile, popTables);

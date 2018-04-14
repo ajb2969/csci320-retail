@@ -1,7 +1,9 @@
 package main.java;
+import com.sun.org.apache.xml.internal.security.Init;
 import main.java.Command.*;
 import main.java.Command.Inventory;
 
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.HashMap;
 
@@ -110,16 +112,28 @@ public class User {
      * Initializes the right loop
      */
     public void startLoop(){
-        if(this.userName != null)
-            System.out.println("Hello " + this.userName);
-        printHelp(this.type);
-        Scanner input = new Scanner(System.in);
-        String line = "";
-        while(!(line.toLowerCase().equals("logout"))){
-            System.out.print(">");
-            line = input.nextLine();
-            parseCommand(line);
-            printHelp(this.type); // FIX
+        try{
+            Scanner input = new Scanner(System.in);
+            if(this.userName != null)
+                System.out.println("Hello " + this.userName);
+            printHelp(this.type);
+            String line = input.nextLine();
+            while(!(line.toLowerCase().equals("logout"))){
+                parseCommand(line);
+                printHelp(this.type);
+                System.out.print(">");
+                line = input.next();
+            }
+        }
+        catch(NoSuchElementException e){
+            Scanner input = new Scanner(System.in);
+            String line = input.nextLine();
+            while(!(line.toLowerCase().equals("logout"))){
+                parseCommand(line);
+                printHelp(this.type);
+                System.out.print(">");
+                line = input.nextLine();
+            }
         }
     }
 
