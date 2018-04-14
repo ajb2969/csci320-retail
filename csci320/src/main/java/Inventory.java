@@ -73,13 +73,14 @@ public class Inventory extends Table {
                 int x = 0;
             }
             else{
-                String query = "Select ProductType from Product where UPC in (" +
-                        "Select UPC from Inventory where store_ID in (" +
-                        "Select hStoreID from Customer where fname = \'" + fName + "\' and lname = \'" + lName + "\'))";
+                String query = "with storeInventory as (Select UPC,Quantity from Inventory where store_ID in(" +
+                        "Select hStoreID from Customer WHERE " +
+                        "fname = \'"+ fName +"\' and lname = \'" + lName + "\')) SELECT * from Product NATURAL JOIN storeInventory";
+
                 Statement s = conn.createStatement();
                 ResultSet rs = s.executeQuery(query);
                 while(rs.next()){
-                    System.out.println(rs.getString("ProductType"));
+                    System.out.println(rs.getString("UPC") + " - " + rs.getString("ProductType") + " - " + rs.getString("Quantity"));
                 }
                 System.out.println("\n");
             }
