@@ -1,5 +1,7 @@
 package main.java.Command;
 import main.java.Inventory;
+import main.java.User;
+
 import java.util.Scanner;
 
 /**
@@ -27,9 +29,17 @@ public class Sort implements Command{
             System.out.print("Sort by ASC or DESC: ");
             String ascDesc = input.nextLine();
             ascDesc = ascDesc.toUpperCase();
-            String first = args[0].split(" ")[0];
-            String last = args[0].split(" ")[1];
+            String[] username;
 
+            if(User.getUserName() == null){
+                username = new String[2];
+                username[0] = "Guest";
+                username[1] = "Guest";
+            }else{
+                username = User.getUserName().split(" ");
+            }
+            String first = username[0];
+            String last = username[1];
             if (sortBy.equals("brand") && ascDesc.equals("ASC")) {
                 Inventory.sortBy(SortBy.brandAsc, first, last);
             } else if (sortBy.equals("brand") && ascDesc.equals("DESC")) {

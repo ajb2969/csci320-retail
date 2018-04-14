@@ -15,7 +15,14 @@ public class ShoppingCart {
 
     public void addToCart(int upc, int quantity, String [] username){
         try{
-            username = username[0].split(" ");
+            if(User.getUserName() == null){
+                username = new String[2];
+                username[0] = "Guest";
+                username[1] = "Guest";
+            }else{
+                username = User.getUserName().split(" ");
+            }
+
             String query = "Select UPC,Quantity from Inventory where store_ID in(" +
                     "Select hStoreID from Customer WHERE " +
                     "fname = \'"+ username[0].trim() +"\' and lname = \'" + username[1].trim() + "\')";
