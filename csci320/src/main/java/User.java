@@ -170,7 +170,6 @@ public class User {
     private static HashMap<String, Command> createGuestCommands(){
         HashMap<String, Command> commands = new HashMap<String, Command>();
         commands.put("registeraccount", new RegisterAccount());
-        commands.put("history", new History());
         commands.put("printlocation", new PrintLocation());
         commands.put("changelocation", new ChangeLocation());
         commands.put("inventory", new Inventory());
@@ -198,7 +197,7 @@ public class User {
         commands.put("cart", new Cart());
         commands.put("checkout", new Checkout());
         commands.put("logout", new Logout());
-        commands.put("restock", new Restock());
+//        commands.put("restock", new Restock());
         return commands;
     }
 
