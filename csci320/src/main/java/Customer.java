@@ -146,6 +146,38 @@ public class Customer extends Table{
         return UserType.Guest;
     }
 
+    /**
+     * Queries and displays the current user's
+     * purchase history
+     */
+    public static void displayHistory(){
+        String UserId = User.getUserID();
+
+
+        try{
+            //gets usertype of person
+            String query = String.format("select SaleID, StoreID, Cost from Customer where customerID =  \'%s\'", UserId);
+            Statement stmt = conn.createStatement();
+            ResultSet rs = stmt.executeQuery(query);
+            int total_cost = 0;
+            while(rs.next()) {
+                int sale_id = Integer.parseInt(rs.getString("SaleID"));
+                int store_id = Integer.parseInt(rs.getString("StoreID"));
+                int cost = Integer.parseInt(rs.getString("Cost"));
+                String saleTime = rs.getString("SaleTime");
+                System.out.printf("Sale Id: %d, Store Id: %d, Cost: %d, Time of Sale %s \n",
+                        sale_id, store_id, cost, saleTime);
+                total_cost += cost;
+            }
+            System.out.println("Total cost of all sales is " + total_cost);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+    }
+
 
 
 

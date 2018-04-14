@@ -1,6 +1,11 @@
 package main.java.Command;
 
 
+import main.java.Customer;
+import main.java.User;
+
+import java.sql.SQLException;
+
 public class History implements Command {
 
     /**
@@ -9,6 +14,10 @@ public class History implements Command {
      */
     public void execute(String [] args) {
         System.out.println("Viewing History");
-        // TODO Implement the backend!
+        try {
+            Customer.displayHistory();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 }

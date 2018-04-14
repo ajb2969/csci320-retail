@@ -76,6 +76,7 @@ public class InitRetail {
         // Check if the user specifies to be a member, then try to identify it
         if(User.checkMemberInput()){
             user = User.identifyUser();
+            User.setUserId();
         }
         // Begin Loop
         user.startLoop();

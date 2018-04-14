@@ -3,6 +3,10 @@ import com.sun.org.apache.xml.internal.security.Init;
 import main.java.Command.*;
 import main.java.Command.Inventory;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.HashMap;
@@ -21,7 +25,11 @@ public class User {
     // Username's name
     private static String userName;
 
+    // The homeStore ID of the current User
     private static String homeStoreID;
+
+    // The UserId for the current User
+    public static String userID;
 
     // HashMap of commands available to the user
     private HashMap<String, Command> commands;
@@ -129,6 +137,37 @@ public class User {
 
         }
     }
+
+    /**
+     * Find and sets the User's ID
+     */
+    public static void setUserId(){
+        System.out.println(userName);
+        String[] names = userName.split(" ");
+        Connection c = Table.conn;
+        Statement s = null;
+        userID = "nullID";
+        try {
+            s = c.createStatement();
+            String getUserID = "Select ID from Customer where "+
+                    "fname = \'"+ names[0] +"\' and lname = \'" + names[1] + "\'";
+            ResultSet rs =  s.executeQuery(getUserID);
+            while(rs.next()){
+                userID = rs.getString("ID");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * Getter for the User ID
+     * @return the User ID as a string
+     */
+    public static String getUserID(){
+        return userID;
+    }
+
 
     private void parseCommand(String line){
         String[] args = line.trim().toLowerCase().split(" ");
