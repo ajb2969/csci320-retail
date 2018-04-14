@@ -157,8 +157,9 @@ public class Store extends Table{
             System.out.println("Unable to validate user. Try again.");
         }
     }
-    public static void changeStore(String curruser) {
+    public static void changeStore(String [] curruser) {//null or fName lName in curruser[0]
         try {
+
             Scanner input = new Scanner(System.in);
             HashMap<Integer, String> stores = new HashMap<Integer, String>();
             String getStores = "Select id,name,address,city,state,zipcode,country from Store";
@@ -189,37 +190,36 @@ public class Store extends Table{
                 }
             }
 
-
-            String [] name;
-            if(curruser != null){
-                name = curruser.split(" ");
-            }
-            else{
-                name = new String[]{"GUEST","GUEST"};
-            }
-
-            System.out.print("Please enter the store you're now in: ");
-            int id = input.nextInt();
-            if(curruser == null){//if guest
-                if(id == 30){
-                    System.err.println("As a guest, you may not shop at our online store");
-                    while(id == 30){
-                        System.out.print("Please enter the store you're now in: ");
-                        id = input.nextInt();
-                        if(id == 30) {
-                            System.err.println("As a guest, you may not shop at our online store");
-                        }
-                    }
-
-                }
-            }
-
-
+            String name = curruser[0];
+            int id = 0;
             Connection conn = InitRetail.getConnection();
             Statement s = conn.createStatement();
-            String query = String.format("SELECT id " +
-                                        "FROM Customer " +
-                                        "WHERE fname = \'%s\' and lname = \'%s\';",name[0],name[1]);
+            String query = "";
+
+            if(name == null){//guest
+                System.out.print("Please enter the store you're now in: ");
+                id = input.nextInt();
+                while(id == 30){
+                    if(id == 30){
+                        System.err.println("As a guest, you may not shop at our online store");
+                    }
+                    System.out.print("Please enter the store you're now in: ");
+                    id = input.nextInt();
+                }
+                query = String.format("SELECT id " +
+                        "FROM Customer " +
+                        "WHERE fname = \'%s\' and lname = \'%s\';","Guest","Guest");
+            }
+            else{//user
+                System.out.print("Please enter the store you're now in: ");
+                id = input.nextInt();
+                String [] n = name.split(" ");
+                query = String.format("SELECT id " +
+                        "FROM Customer " +
+                        "WHERE fname = \'%s\' and lname = \'%s\';",n[0],n[1]);
+            }
+
+
             ResultSet r  = s.executeQuery(query);
             int getUserId = 0;
             while(r.next()) {

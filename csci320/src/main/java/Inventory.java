@@ -134,24 +134,33 @@ public class Inventory extends Table {
                 "Select hStoreID from Customer WHERE " +
                 "fname = \'"+ fName +"\' and lname = \'" + lName + "\')";
     }
+
     public static String getCurrentStoreInventoryUPC(String fName, String lName) {
         return "Select UPC from Inventory where store_ID in(" +
                 "Select hStoreID from Customer WHERE " +
                 "fname = \'"+ fName +"\' and lname = \'" + lName + "\')";
     }
+
     public static void printInventory(String fName, String lName){
         try{
-            if(fName == null && lName == null){
-                ArrayList<String> inventory = new ArrayList<>();
-                String query = "Select ProductType from Product,Inventory where store_ID = 1";
+            if(fName == null && lName == null){//guest
+                String getHstoreID = "Select hstoreID from Customer where id = 0";
                 Statement s = conn.createStatement();
-                ResultSet rs = s.executeQuery(query);
+                ResultSet rs = s.executeQuery(getHstoreID);
+                int hStoreID = 0;//guestHomestoreID
                 while(rs.next()){
-                    if (rs.getString(1) != null){
-                        inventory.add(rs.getString(1));
-                    }
+                    hStoreID = rs.getInt(1);
                 }
-                int x = 0;
+
+
+                String getGuestInventory = "with storeInventory as (Select UPC,Quantity from Inventory where store_ID = "+ hStoreID + ")";
+                String query = getGuestInventory + " SELECT * from Product NATURAL JOIN storeInventory";
+                s = conn.createStatement();
+                rs = s.executeQuery(query);
+
+                while(rs.next()){
+                    System.out.println(rs.getString("UPC") + " - " + rs.getString("ProductType") + " - " + rs.getString("Quantity"));
+                }
             }
             else{
                 String query = "with storeInventory as (Select UPC,Quantity from Inventory where store_ID in(" +
@@ -277,9 +286,5 @@ public class Inventory extends Table {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//        SELECT UPC, quantity from inventory
-//        WHERE UPC in (Select UPC from Inventory where store_ID in(
-//                Select hStoreID from Customer WHERE
-//                fname = 'Abe' and lname =  'Aalbers')) and UPC = 111953
     }
 }
