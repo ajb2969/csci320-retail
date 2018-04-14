@@ -198,6 +198,7 @@ public class User {
         commands.put("cart", new Cart());
         commands.put("checkout", new Checkout());
         commands.put("logout", new Logout());
+        commands.put("restock", new Restock());
         return commands;
     }
 

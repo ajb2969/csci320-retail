@@ -103,6 +103,22 @@ public class Inventory extends Table {
         }
 
     }
+    public static void restock(String first, String last) {
+        try {
+            String query = "SELECT UPC " +
+                    "FROM (" + Inventory.getCurrentStoreInventory(first, last) +
+                    ") WHERE quantity = 0";
+            String query2 = "UPDATE inventory " +
+                    "SET quantity = 50 " +
+                    "WHERE UPC in (" + query + ")";
+            Statement s = conn.createStatement();
+            s.execute(query2);
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("ERROR in RESTOCK QUERY!");
+        }
+    }
     public static String getCurrentStoreInventory(String fName, String lName) {
         return "Select UPC from Inventory where store_ID in(" +
                 "Select hStoreID from Customer WHERE " +

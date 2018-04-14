@@ -14,7 +14,6 @@
 * A csv  file containing example data used to populate your database. A zip file containing everything needed to build, populate, and run your project. This should include: 
 > - Any code created.
 > - Any data needed to populate the database.
-> - A README explaining the process needed to build the project.
-> - A README explaining the basic operation of the application.
-* README - Installation
-* 1) Load the program in Intellij
+> - ~~A README explaining the process needed to build the project.~~
+> - ~~A README explaining the basic operation of the application.~~
+

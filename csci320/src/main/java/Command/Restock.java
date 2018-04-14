@@ -1,7 +1,6 @@
 package main.java.Command;
+import main.java.Inventory;
 
-import main.java.Store;
-import main.java.User;
 
 /**
  * Restock command that will restock the inventory
@@ -22,8 +21,8 @@ public class Restock implements Command {
     public void execute(String[] args) {
         try {
             System.out.println("Restocking the inventory.");
-            int storyID = Integer.parseInt(args[1]);
-            // TODO Add the backend restock command.
+            Inventory.restock(args[0].split(" ")[0], args[0].split(" ")[1]);
+
         } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException ae) {
             System.err.println("Illegal command. Format: restock <storeId>");
         }
