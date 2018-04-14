@@ -1,4 +1,5 @@
 package main.java;
+import com.sun.org.apache.xml.internal.dtm.ref.CustomStringPool;
 import com.sun.org.apache.xml.internal.security.Init;
 import main.java.Command.*;
 import main.java.Command.Inventory;
@@ -261,6 +262,9 @@ public class User {
         commands.put("restock", new Restock());
         return commands;
     }
-    
-    
+
+
+    public static boolean isIdentified() {
+        return userID != null;
+    }
 }

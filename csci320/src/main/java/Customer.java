@@ -154,10 +154,9 @@ public class Customer extends Table{
     public static void displayHistory(){
         String UserId = User.getUserID();
 
-
         try{
             //gets usertype of person
-            String query = String.format("select SaleID, StoreID, Cost from Customer where customerID =  \'%s\'", UserId);
+            String query = String.format("select saleID, StoreID, Cost, SaleTime from Sale where customerID =  \'%s\'", UserId);
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);
             int total_cost = 0;

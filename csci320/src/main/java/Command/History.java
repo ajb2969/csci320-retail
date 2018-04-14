@@ -13,11 +13,12 @@ public class History implements Command {
      * @param args: Given arguments for the command to be fully
      */
     public void execute(String [] args) {
-        System.out.println("Viewing History");
-        try {
+        if(User.isIdentified()){
+            System.out.println("Viewing History...");
             Customer.displayHistory();
-        } catch (SQLException e) {
-            e.printStackTrace();
+        }else{
+            System.out.println("No identified user to show a histoy.");
         }
+
     }
 }
