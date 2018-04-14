@@ -216,7 +216,7 @@ public class User {
         commands.put("registeraccount", new RegisterAccount());
         commands.put("printlocation", new PrintLocation());
         commands.put("changelocation", new ChangeLocation());
-        commands.put("inventory", new Inventory());
+//        commands.put("inventory", new Inventory());
         commands.put("sort", new Sort());
         commands.put("add", new Add());
         commands.put("cart", new Cart());
@@ -235,13 +235,12 @@ public class User {
         commands.put("history", new History());
         commands.put("printlocation", new PrintLocation());
         commands.put("changelocation", new ChangeLocation());
-        commands.put("inventory", new Inventory());
+//        commands.put("inventory", new Inventory());
         commands.put("sort", new Sort());
         commands.put("add", new Add());
         commands.put("cart", new Cart());
         commands.put("checkout", new Checkout());
         commands.put("logout", new Logout());
-        commands.put("restock", new Restock());
         return commands;
     }
 
