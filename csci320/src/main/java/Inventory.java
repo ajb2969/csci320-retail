@@ -3,6 +3,8 @@
  */
 package main.java;
 
+import main.java.Command.Command;
+
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -58,6 +60,39 @@ public class Inventory extends Table {
         }
     }
 
+    /**
+     * Sort the inventory
+     * @param sort sort type
+     */
+    public static void sortBy(Command.SortBy sort, String first, String last) {
+        String query;
+        switch(sort) {
+            case brandAsc:
+                query = "SELECT * FROM product ORDER BY brand ASC";
+                break;
+            case brandDesc:
+                query = "SELECT * FROM product ORDER BY brand DESC";
+                break;
+            case priceAsc:
+                query = "SELECT * FROM product ORDER BY price ASC";
+                break;
+            case priceDesc:
+                query = "SELECT * FROM product ORDER BY price DESC";
+                break;
+            case productAsc:
+                query = "SELECT * FROM product ORDER BY product ASC";
+                break;
+            case productDesc:
+                query = "SELECT * FROM product ORDER BY product DESC";
+                break;
+        }
+
+    }
+    public static String getCurrentStoreInventory(String fName, String lName) {
+        return "Select * from Inventory where store_ID in(" +
+                "Select hStoreID from Customer WHERE " +
+                "fname = \'"+ fName +"\' and lname = \'" + lName + "\'))";
+    }
     public static void printInventory(String fName, String lName){
         try{
             if(fName == null && lName == null){

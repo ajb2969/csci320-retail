@@ -10,4 +10,14 @@ public interface Command {
      *              executed
      */
     public abstract void execute(String[] args);
+
+    public enum SortBy {
+        priceAsc,
+        priceDesc,
+        productAsc,
+        productDesc,
+        brandAsc,
+        brandDesc
+    }
 }
+
