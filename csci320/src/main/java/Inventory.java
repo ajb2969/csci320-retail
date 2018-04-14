@@ -104,6 +104,7 @@ public class Inventory extends Table {
 
     }
     public static void restock(String first, String last) {
+        // TODO PRINT UP
         try {
             String query = "SELECT UPC " +
                     "FROM (" + Inventory.getCurrentStoreInventory(first, last) +
