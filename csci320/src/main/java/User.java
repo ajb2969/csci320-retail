@@ -215,7 +215,6 @@ public class User {
         commands.put("inventory", new Inventory());
         commands.put("sort", new Sort());
         commands.put("add", new Add());
-        String [] u = userName.split(" ");
         commands.put("cart", new Cart());
         commands.put("checkout", new Checkout());
         commands.put("logout", new Logout());

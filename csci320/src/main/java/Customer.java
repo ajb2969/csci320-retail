@@ -101,7 +101,8 @@ public class Customer extends Table{
     public static String checkMemberCredentials(String username, String password){
         try{
             String query = "Select fname,lname,zipcode,hstoreID from Customer where UserType = " +
-                    String.valueOf(UserType.valueOf(UserType.Member.toString()).ordinal()); //2 is a member
+                    String.valueOf(UserType.valueOf(UserType.Member.toString()).ordinal()) + " or UserType = " +
+                            String.valueOf(UserType.valueOf(UserType.Employee.toString()).ordinal()); //2 is a member
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);//pulls all members
             while(rs.next()){

@@ -4,6 +4,7 @@ package main.java.Command;
 import main.java.InitRetail;
 
 import java.sql.*;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -81,12 +82,14 @@ public class Checkout implements Command {
                 for (Integer i : sc.keySet()){
                     insertProducts+= String.valueOf(saleID) + ","+
                             String.valueOf(i) + ","+
-                            String.valueOf(sc.get(i)) + "),";
+                            String.valueOf(sc.get(i)) + "),(";
                 }
-                insertProducts = insertProducts.substring(0,insertProducts.length()-1);
+                insertProducts = insertProducts.substring(0,insertProducts.length()-2);
                 ps = c.prepareStatement(insertProducts);
                 ps.executeUpdate();
-                //print total and exit
+                NumberFormat format = NumberFormat.getCurrencyInstance();
+                System.out.println("Your total is " + format.format(cost));
+                System.exit(0);
 
             } catch (SQLException e) { e.printStackTrace(); }
     }
