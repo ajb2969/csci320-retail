@@ -16,6 +16,7 @@ public class History implements Command {
      * @param args: Given arguments for the command to be fully
      */
     public void execute(String [] args) {
+
         args = args[0].split(" ");
         //Print Sale Number, Store ID, cost and saleTime
         try{
@@ -37,7 +38,6 @@ public class History implements Command {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
 
     }
 }
