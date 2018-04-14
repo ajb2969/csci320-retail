@@ -20,10 +20,13 @@ public class Sort implements Command{
     public void execute(String [] args) {
         try {
             Scanner input = new Scanner(System.in);
-            System.out.println("Enter sort type(brand, price, product): ");
+            System.out.print("Enter sort type(brand, price, product): ");
             String sortBy = input.nextLine();
-            System.out.println("Sort by ASC or DESC: ");
+            sortBy = sortBy.toLowerCase();
+
+            System.out.print("Sort by ASC or DESC: ");
             String ascDesc = input.nextLine();
+            ascDesc = ascDesc.toUpperCase();
             String first = args[0].split(" ")[0];
             String last = args[0].split(" ")[1];
 

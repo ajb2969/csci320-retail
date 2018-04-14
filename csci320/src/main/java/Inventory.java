@@ -65,33 +65,48 @@ public class Inventory extends Table {
      * @param sort sort type
      */
     public static void sortBy(Command.SortBy sort, String first, String last) {
-        String query;
-        switch(sort) {
-            case brandAsc:
-                query = "SELECT * FROM product ORDER BY brand ASC";
-                break;
-            case brandDesc:
-                query = "SELECT * FROM product ORDER BY brand DESC";
-                break;
-            case priceAsc:
-                query = "SELECT * FROM product ORDER BY price ASC";
-                break;
-            case priceDesc:
-                query = "SELECT * FROM product ORDER BY price DESC";
-                break;
-            case productAsc:
-                query = "SELECT * FROM product ORDER BY product ASC";
-                break;
-            case productDesc:
-                query = "SELECT * FROM product ORDER BY product DESC";
-                break;
+        try {
+            String query = "SELECT DISTINCT * FROM product WHERE UPC in ("
+                    + getCurrentStoreInventory(first, last) + ") "
+                    + "ORDER BY ";
+            switch (sort) {
+                case brandAsc:
+                    query += "brand";
+                    break;
+                case brandDesc:
+                    query += "brand DESC";
+                    break;
+                case priceAsc:
+                    query += "price";
+                    break;
+                case priceDesc:
+                    query += "price DESC";
+                    break;
+                case productAsc:
+                    query += "productType";
+                    break;
+                case productDesc:
+                    query += "productType DESC";
+                    break;
+            }
+            Statement s = conn.createStatement();
+            ResultSet rs = s.executeQuery(query);
+            while(rs.next()){
+                System.out.println("UPC: " + rs.getString("UPC") + " - " + "Product: " +
+                        rs.getString("ProductType") + " - " + "Price: " + rs.getString("Price")
+                        + " - " + "Brand: "+ rs.getString("Brand"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.err.println("ERROR in SORTBY QUERY!");
         }
 
     }
     public static String getCurrentStoreInventory(String fName, String lName) {
-        return "Select * from Inventory where store_ID in(" +
+        return "Select UPC from Inventory where store_ID in(" +
                 "Select hStoreID from Customer WHERE " +
-                "fname = \'"+ fName +"\' and lname = \'" + lName + "\'))";
+                "fname = \'"+ fName +"\' and lname = \'" + lName + "\')";
     }
     public static void printInventory(String fName, String lName){
         try{
