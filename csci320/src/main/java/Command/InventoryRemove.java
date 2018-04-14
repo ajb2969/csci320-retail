@@ -1,8 +1,9 @@
 package main.java.Command;
 
 
-import main.java.Store;
-import main.java.User;
+import main.java.*;
+
+import java.util.Scanner;
 
 /**
  * InventoryRemove command
@@ -20,8 +21,12 @@ public class InventoryRemove implements Command {
     @Override
     public void execute(String[] args) {
         try {
-            int upc = Integer.parseInt(args[1]);
-            System.out.println("TODO: the backend of Inventory needs to be implemented.");
+            Scanner scanner = new Scanner(System.in);
+            System.out.println("Insert the UPC");
+            int UPC = Integer.parseInt(scanner.nextLine());
+            System.out.println("Insert the quantity to add");
+            int quantity = Integer.parseInt(scanner.nextLine());
+            main.java.Inventory.inventoryRemove(UPC, quantity);
         } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException ae) {
             System.err.println("Illegal command. Format: inventoryremove <UPC>");
         }

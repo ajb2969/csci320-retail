@@ -1,5 +1,10 @@
 package main.java.Command;
 
+import main.java.*;
+import main.java.Inventory;
+
+import java.util.Scanner;
+
 /**
  * InventoryAdd command to add to the inventory
  *
@@ -12,11 +17,19 @@ public class InventoryAdd implements Command {
     /**
      *
      * InventoryAdd execute command to add to the inventory
+     * Format is inventoryAdd <UPC> <quantity>
      * @param args: inventory command
      *
      */
     @Override
     public void execute(String[] args) {
-        System.out.println("TODO: Implement the InventoryAdd command!");
+        Scanner scanner = new Scanner(System.in);
+        System.out.println("Insert the UPC");
+        int UPC = Integer.parseInt(scanner.nextLine());
+        System.out.println("Insert the quantity to add");
+        int quantity = Integer.parseInt(scanner.nextLine());
+        Inventory.inventoryAdd(UPC, quantity);
+
+
     }
 }
