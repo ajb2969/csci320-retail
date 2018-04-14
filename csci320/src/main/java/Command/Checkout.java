@@ -88,8 +88,8 @@ public class Checkout implements Command {
                 ps = c.prepareStatement(insertProducts);
                 ps.executeUpdate();
                 NumberFormat format = NumberFormat.getCurrencyInstance();
-                System.out.println("Your total is " + format.format(cost));
-                System.exit(0);
+                System.out.println("Your total is " + format.format(cost) +"\n");
+                new Add().getCart().emptyCart();
 
             } catch (SQLException e) { e.printStackTrace(); }
     }

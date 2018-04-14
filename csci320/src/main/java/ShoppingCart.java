@@ -63,4 +63,9 @@ public class ShoppingCart {
     public HashMap<Integer, Integer> getCart(){
         return this.cart;
     }
+
+    public void emptyCart(){
+        this.cart = new HashMap<Integer,Integer>();
+    }
+
 }

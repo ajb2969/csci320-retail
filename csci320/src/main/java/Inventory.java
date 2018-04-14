@@ -106,9 +106,29 @@ public class Inventory extends Table {
     public static void restock(String first, String last) {
         // TODO PRINT UP
         try {
+
+//            String qry = "with storeInventory as (Select UPC,Quantity from Inventory where store_ID in(" +
+//                    "Select hStoreID from Customer WHERE " +
+//                    "fname = \'"+ first +"\' and lname = \'" + last + "\')) SELECT vendorid,productType,storeInventory.UPC from (Product NATURAL JOIN storeInventory)";
+
+
             String query = "SELECT UPC " +
-                    "FROM (" + Inventory.getCurrentStoreInventory(first, last) +
-                    ") WHERE quantity = 0";
+                    "FROM (" + getCurrentStoreInventory(first, last) +
+                    ") as currStoreUPCs WHERE quantity < 15";
+
+            String getVendors = "SELECT DISTINCT vendorName FROM vendor WHERE vendorID IN ( SELECT vendorID FROM product where UPC IN ( " + query +" ) ) " +
+                    "ORDER BY vendorName ";
+
+//            String query1point5 = "SELECT storeInventory.UPC " +
+//                    "FROM (" + qry +
+//                    ") WHERE quantity < 10";
+//
+            Statement sa = conn.createStatement();
+            ResultSet rs = sa.executeQuery(getVendors);
+            System.out.println("Restocked from vendors:");
+            while(rs.next()){
+                System.out.println("\tVendor: " + rs.getString("vendorName"));
+            }
             String query2 = "UPDATE inventory " +
                     "SET quantity = 50 " +
                     "WHERE UPC in (" + query + ")";
@@ -121,7 +141,7 @@ public class Inventory extends Table {
         }
     }
     public static String getCurrentStoreInventory(String fName, String lName) {
-        return "Select UPC from Inventory where store_ID in(" +
+        return "Select UPC, quantity from Inventory where store_ID in(" +
                 "Select hStoreID from Customer WHERE " +
                 "fname = \'"+ fName +"\' and lname = \'" + lName + "\')";
     }
