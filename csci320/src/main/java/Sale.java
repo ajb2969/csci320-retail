@@ -24,7 +24,7 @@ public class Sale extends Table{
     public void populateTables(Connection c, String filename) {
         try {
             String query = "CREATE TABLE IF NOT EXISTS Sale("
-                    + "saleID int NOT NULL, "
+                    + "saleID int NOT NULL AUTO_INCREMENT, "
                     + "storeID int NOT NULL ,"
                     + "cost int NOT NULL ,"
                     + "customerID int NOT NULL ,"

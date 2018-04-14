@@ -5,7 +5,6 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
-import java.util.Set;
 
 public class ShoppingCart {
     private static HashMap<Integer, Integer> cart;
@@ -59,5 +58,9 @@ public class ShoppingCart {
 
         }
         System.out.println("\n");
+    }
+
+    public HashMap<Integer, Integer> getCart(){
+        return this.cart;
     }
 }
