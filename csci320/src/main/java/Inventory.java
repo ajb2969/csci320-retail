@@ -67,7 +67,7 @@ public class Inventory extends Table {
     public static void sortBy(Command.SortBy sort, String first, String last) {
         try {
             String query = "SELECT DISTINCT * FROM product WHERE UPC in ("
-                    + getCurrentStoreInventory(first, last) + ") "
+                    + getCurrentStoreInventoryUPC(first, last) + ") "
                     + "ORDER BY ";
             switch (sort) {
                 case brandAsc:
@@ -104,14 +104,7 @@ public class Inventory extends Table {
 
     }
     public static void restock(String first, String last) {
-        // TODO PRINT UP
         try {
-
-//            String qry = "with storeInventory as (Select UPC,Quantity from Inventory where store_ID in(" +
-//                    "Select hStoreID from Customer WHERE " +
-//                    "fname = \'"+ first +"\' and lname = \'" + last + "\')) SELECT vendorid,productType,storeInventory.UPC from (Product NATURAL JOIN storeInventory)";
-
-
             String query = "SELECT UPC " +
                     "FROM (" + getCurrentStoreInventory(first, last) +
                     ") as currStoreUPCs WHERE quantity < 15";
@@ -119,10 +112,6 @@ public class Inventory extends Table {
             String getVendors = "SELECT DISTINCT vendorName FROM vendor WHERE vendorID IN ( SELECT vendorID FROM product where UPC IN ( " + query +" ) ) " +
                     "ORDER BY vendorName ";
 
-//            String query1point5 = "SELECT storeInventory.UPC " +
-//                    "FROM (" + qry +
-//                    ") WHERE quantity < 10";
-//
             Statement sa = conn.createStatement();
             ResultSet rs = sa.executeQuery(getVendors);
             System.out.println("Restocked from vendors:");
@@ -142,6 +131,12 @@ public class Inventory extends Table {
     }
     public static String getCurrentStoreInventory(String fName, String lName) {
         return "Select UPC, quantity from Inventory where store_ID in(" +
+                "Select hStoreID from Customer WHERE " +
+                "fname = \'"+ fName +"\' and lname = \'" + lName + "\')";
+    }
+
+    public static String getCurrentStoreInventoryUPC(String fName, String lName) {
+        return "Select UPC from Inventory where store_ID in(" +
                 "Select hStoreID from Customer WHERE " +
                 "fname = \'"+ fName +"\' and lname = \'" + lName + "\')";
     }
@@ -291,9 +286,5 @@ public class Inventory extends Table {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-//        SELECT UPC, quantity from inventory
-//        WHERE UPC in (Select UPC from Inventory where store_ID in(
-//                Select hStoreID from Customer WHERE
-//                fname = 'Abe' and lname =  'Aalbers')) and UPC = 111953
     }
 }

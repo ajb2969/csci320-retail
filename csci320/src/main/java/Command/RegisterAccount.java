@@ -78,8 +78,6 @@ public class RegisterAccount implements Command{
             } catch (SQLException e) {
                 e.printStackTrace();
             }
-
-            // TODO Add the backend func call
         } catch (IllegalArgumentException | InputMismatchException e) {
             System.err.println("Illegal RegisterAccount command input.");
         }
