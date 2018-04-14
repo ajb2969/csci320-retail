@@ -124,6 +124,9 @@ public class User {
             Scanner input = new Scanner(System.in);
             if(this.userName != null)
                 System.out.println("\nHello " + this.userName);
+            if(this.userName == null){
+                parseCommand("changelocation");
+            }
             printHelp(this.type);
             String line = input.nextLine();
             while(!(line.toLowerCase().equals("logout"))){
@@ -143,7 +146,7 @@ public class User {
      * Find and sets the User's ID
      */
     public static void setUserId(){
-        System.out.println(userName);
+        //System.out.println(userName);
         String[] names = userName.split(" ");
 
         Connection c = Table.conn;
