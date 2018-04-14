@@ -4,6 +4,7 @@ package main.java;
  */
 import java.io.*;
 import java.sql.*;
+import java.util.HashMap;
 import java.util.Scanner;
 
 public class Store extends Table{
@@ -159,9 +160,61 @@ public class Store extends Table{
     public static void changeStore(String curruser) {
         try {
             Scanner input = new Scanner(System.in);
-            String [] name = curruser.split(" ");
+            HashMap<Integer, String> stores = new HashMap<Integer, String>();
+            String getStores = "Select id,name,address,city,state,zipcode,country from Store";
+            PreparedStatement ps = conn.prepareStatement(getStores);
+            ResultSet rs = ps.executeQuery();
+            while(rs.next()){
+                stores.put(rs.getInt("id"), rs.getString("name") + "," +
+                        rs.getString("address") + "," +
+                        rs.getString("city") + "," +
+                        rs.getString("state") + "," +
+                        rs.getString("zipcode") + "," +
+                        rs.getString("country"));
+            }
+            for(Integer i: stores.keySet()){
+                if(i != 30){
+                    System.out.print(i + " - ");
+                    String [] details = stores.get(i).split(",");
+                    for(int l = 0; l<details.length; l++){
+                        System.out.print(details[l]);
+                        if(l != details.length-1){
+                            System.out.print(", ");
+                        }
+                    }
+                    System.out.println("");
+                }
+                else{
+                    System.out.println(i + " - " + stores.get(i).split(",")[0]);
+                }
+            }
+
+
+            String [] name;
+            if(curruser != null){
+                name = curruser.split(" ");
+            }
+            else{
+                name = new String[]{"GUEST","GUEST"};
+            }
+
             System.out.print("Please enter the store you're now in: ");
             int id = input.nextInt();
+            if(curruser == null){//if guest
+                if(id == 30){
+                    System.err.println("As a guest, you may not shop at our online store");
+                    while(id == 30){
+                        System.out.print("Please enter the store you're now in: ");
+                        id = input.nextInt();
+                        if(id == 30) {
+                            System.err.println("As a guest, you may not shop at our online store");
+                        }
+                    }
+
+                }
+            }
+
+
             Connection conn = InitRetail.getConnection();
             Statement s = conn.createStatement();
             String query = String.format("SELECT id " +
