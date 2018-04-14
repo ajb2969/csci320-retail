@@ -1,5 +1,8 @@
 package main.java.Command;
 
+import main.java.ShoppingCart;
+import static main.java.ShoppingCart.printCart;
+
 /**
  *
  */
@@ -12,7 +15,6 @@ public class Cart implements Command {
     @Override
     public void execute(String[] args) {
         System.out.println("Viewing cart.");
-        // TODO Call the backend to look at the cart.
-
+        printCart();
     }
 }
