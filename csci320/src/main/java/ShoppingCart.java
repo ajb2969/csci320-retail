@@ -25,12 +25,23 @@ public class ShoppingCart {
             ResultSet rs = s.executeQuery(query);
             while(rs.next()){
                 if(rs.getString("UPC").equals(String.valueOf(upc))){
-                    if(Integer.parseInt(rs.getString("quantity")) >= quantity && quantity > 0){
-                        cart.put(upc,quantity);
-                        System.out.println("Successfully added to cart \n");
+                    if(cart.containsKey(upc)){
+                        if(Integer.parseInt(rs.getString("quantity")) >= (quantity + cart.get(upc)) && quantity > 0){
+                            cart.put(upc,(quantity + cart.get(upc)));
+                            System.out.println("Successfully added to cart \n");
+                        }
+                        else{
+                            System.err.println("Can't add " + String.valueOf((quantity + cart.get(upc))) + " of " + String.valueOf(upc) + " to cart");
+                        }
                     }
                     else{
-                        System.err.println("Can't add " + String.valueOf(quantity) + " of " + String.valueOf(upc) + " to cart");
+                        if(Integer.parseInt(rs.getString("quantity")) >= quantity && quantity > 0){
+                            cart.put(upc,quantity);
+                            System.out.println("Successfully added to cart \n");
+                        }
+                        else{
+                            System.err.println("Can't add " + String.valueOf(quantity) + " of " + String.valueOf(upc) + " to cart");
+                        }
                     }
                 }
             }
