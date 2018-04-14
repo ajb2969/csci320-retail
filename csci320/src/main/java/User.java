@@ -20,7 +20,9 @@ public class User {
 
     // Username's name
     private static String userName;
-    
+
+    private static String homeStoreID;
+
     // HashMap of commands available to the user
     private HashMap<String, Command> commands;
 
@@ -31,6 +33,7 @@ public class User {
     private User(UserType type, HashMap<String, Command> commands){
         this.type = type;
         this.commands = commands;
+        this.homeStoreID = homeStoreID;
     }
 
     /**
@@ -40,7 +43,6 @@ public class User {
     public static User createGuestUser(){
         return new User(UserType.Guest, createGuestCommands());
     }
-
 
     /**
      * Creates a user given a type
@@ -61,12 +63,6 @@ public class User {
         return createGuestUser();
     }
 
-    public static void registerAccount(String first, String middle, String last,
-                                       String address, String country, String state,
-                                       String city, int zipcode, String email,
-                                       int homeStoreId) {
-        // TODO Implement the register account backend in SQL
-    }
     /**
      * Getter for the username
      * @return the username
@@ -132,18 +128,22 @@ public class User {
                 parseCommand(line);
                 printHelp(this.type);
                 System.out.print(">");
-                line = input.nextLine();
+                line = input.next();
             }
         }
     }
 
     private void parseCommand(String line){
         String[] args = line.trim().toLowerCase().split(" ");
-        if(args.length > 0 && args.length < 2){
-            if(this.commands.containsKey(args[0]))
-                this.commands.get(args[0]).execute(new String[]{
-                        this.userName
-                });
+        if(args.length > 0){
+            if(this.commands.containsKey(args[0])){
+                if(this.type == UserType.Guest){
+                    this.commands.get(args[0]).execute(new String[]{null});
+                }
+                else{
+                    this.commands.get(args[0]).execute(new String[]{this.userName});
+                }
+            }
             else System.out.println("Undefined command: " + line);
                 
         }

@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 
 public class Inventory extends Table {
 
@@ -57,20 +58,37 @@ public class Inventory extends Table {
         }
     }
 
-    public static void printInventory(Connection conn, String user){
-        try {
-            String query = "select fname,hstoreID from Customer where fname = " + user + ";";
-            Statement s = conn.createStatement();
-            ResultSet rs = s.executeQuery(query);
-            int hstore;
-            while(rs.next()){
-                hstore = rs.getInt("hstoreId");
+    public static void printInventory(String fName, String lName){
+        try{
+            if(fName == null && lName == null){
+                ArrayList<String> inventory = new ArrayList<>();
+                String query = "Select ProductType from Product,Inventory where store_ID = 1";
+                Statement s = conn.createStatement();
+                ResultSet rs = s.executeQuery(query);
+                while(rs.next()){
+                    if (rs.getString(1) != null){
+                        inventory.add(rs.getString(1));
+                    }
+                }
+                int x = 0;
+            }
+            else{
+                String query = "Select ProductType from Product where UPC in (" +
+                        "Select UPC from Inventory where store_ID in (" +
+                        "Select hStoreID from Customer where fname = \'" + fName + "\' and lname = \'" + lName + "\'))";
+                Statement s = conn.createStatement();
+                ResultSet rs = s.executeQuery(query);
+                while(rs.next()){
+                    System.out.println(rs.getString("ProductType"));
+                }
+                System.out.println("\n");
             }
 
 
         } catch (SQLException e) {
             e.printStackTrace();
         }
+
 
     }
 

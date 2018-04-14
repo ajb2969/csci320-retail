@@ -156,14 +156,17 @@ public class Store extends Table{
             System.out.println("Unable to validate user. Try again.");
         }
     }
-    public static void changeStore(String curruser, int id) {
+    public static void changeStore(String curruser) {
         try {
-
+            Scanner input = new Scanner(System.in);
+            String [] name = curruser.split(" ");
+            System.out.print("Please enter the store you're now in: ");
+            int id = input.nextInt();
             Connection conn = InitRetail.getConnection();
             Statement s = conn.createStatement();
             String query = String.format("SELECT id " +
                                         "FROM Customer " +
-                                        "WHERE fname = \'%s\';",curruser);
+                                        "WHERE fname = \'%s\' and lname = \'%s\';",name[0],name[1]);
             ResultSet r  = s.executeQuery(query);
             int getUserId = 0;
             while(r.next()) {
@@ -171,7 +174,7 @@ public class Store extends Table{
             }
             query = "UPDATE Customer SET hstoreID = "+ id +" WHERE id = " + getUserId;
             s.execute(query);
-            System.out.println("You are in Jake's located at ");//+ + l.get(id)[2]);//update homestore in db
+            System.out.println("You are in Jake's Store #" + String.valueOf(id));
         }  catch (SQLException e) {
             e.printStackTrace();
         }

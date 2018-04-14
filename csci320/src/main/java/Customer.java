@@ -66,7 +66,12 @@ public class Customer extends Table{
                 if((!line.equals("")) && (!line.contains("#"))){
                     insertQuery += "(";
                     String [] kk = line.split("\\|");
-                    insertQuery += convertListToString(kk);
+                    if(kk[0].equals("0")){//guest user
+                        insertQuery += convertListToString(new String[]{kk[0],kk[1],kk[2],kk[3],"","","","","","",kk[10],kk[11]});
+                    }
+                    else {
+                        insertQuery += convertListToString(kk);
+                    }
                     insertQuery+="),";
                 }
 
@@ -95,7 +100,7 @@ public class Customer extends Table{
      */
     public static String checkMemberCredentials(String username, String password){
         try{
-            String query = "Select fname,lname,zipcode from Customer where UserType = " +
+            String query = "Select fname,lname,zipcode,hstoreID from Customer where UserType = " +
                     String.valueOf(UserType.valueOf(UserType.Member.toString()).ordinal()); //2 is a member
             Statement stmt = conn.createStatement();
             ResultSet rs = stmt.executeQuery(query);//pulls all members
@@ -119,6 +124,9 @@ public class Customer extends Table{
      * Given an username, return the type
      */
     public static UserType checkUserType(String username){
+        if(username == null){
+            return UserType.Guest;
+        }
         String [] name = username.split(":");//[fname,lname]
         try{
             //gets usertype of person

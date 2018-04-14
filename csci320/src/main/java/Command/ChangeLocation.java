@@ -22,7 +22,7 @@ public class ChangeLocation implements Command{
     @Override
     public void execute(String[] args) {
         try {
-            Store.changeStore(User.getUserName(), Integer.parseInt(args[1]));
+            Store.changeStore(User.getUserName());
         } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException ae) {
             System.err.println("Illegal command. Format: changelocation <storeid>");
         }
