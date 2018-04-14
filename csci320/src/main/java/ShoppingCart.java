@@ -5,38 +5,29 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.HashMap;
+import java.util.Set;
 
 public class ShoppingCart {
     private static HashMap<Integer, Integer> cart;
-    private String [] currUser;
-    public ShoppingCart (String [] username){
+    public ShoppingCart (){
         this.cart = new HashMap<Integer, Integer>();
-        this.currUser = username[0].split(" ");
+
     }
 
-    public void addToCart(int upc, int quantity){
+    public void addToCart(int upc, int quantity, String [] username){
         try{
-            /*
-            String query = "Select * from Inventory where "+ String.valueOf(upc) + "  (Select UPC from inventory where store_id in (" +
-                    "Select hStoreID from Customer WHERE " + "fname = \'"+ currUser[0] +"\' and lname = \'" + currUser[1] +" \'))";
-            */
-
+            username = username[0].split(" ");
             String query = "Select UPC,Quantity from Inventory where store_ID in(" +
                     "Select hStoreID from Customer WHERE " +
-                    "fname = \'"+ currUser[0].trim() +"\' and lname = \'" + currUser[1].trim() + "\')";
-
-            /*String query = "with upcList as (Select UPC from inventory where store_id in (" +
-                    "Select hStoreID from Customer WHERE " + "fname = \'"+ currUser[0] +"\' and lname = \'" + currUser[1].trim() +" \')) " +
-                    "Select * from Inventory NATURAL JOIN upcList;";*/
-
+                    "fname = \'"+ username[0].trim() +"\' and lname = \'" + username[1].trim() + "\')";
 
             Connection c = InitRetail.getConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
             while(rs.next()){
                 if(rs.getString("UPC").equals(String.valueOf(upc))){
-                    if(Integer.parseInt(rs.getString("quantity")) >= quantity){
-                        this.cart.put(upc,quantity);
+                    if(Integer.parseInt(rs.getString("quantity")) >= quantity && quantity > 0){
+                        cart.put(upc,quantity);
                         System.out.println("Successfully added to cart \n");
                     }
                     else{
@@ -50,8 +41,22 @@ public class ShoppingCart {
     }
 
     public static void printCart(){
+        System.out.println("Size of cart: " + cart.keySet().size());
         for(Integer i: cart.keySet()){
-            System.out.println(i + " - " + cart.get(i));
+            System.out.print(i + " - " );
+            try{
+                String query = "Select productType from Product where upc = " + String.valueOf(i);
+                Connection c = InitRetail.getConnection();
+                Statement s = c.createStatement();
+                ResultSet rs = s.executeQuery(query);
+                while(rs.next()){
+                    System.out.print(rs.getString("productType") + " - ");
+                }
+                System.out.print(cart.get(i) + "\n");
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+
         }
         System.out.println("\n");
     }

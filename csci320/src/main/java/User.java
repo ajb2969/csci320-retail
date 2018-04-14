@@ -98,6 +98,9 @@ public class User {
         }catch(IllegalArgumentException e){
             System.out.println("Error identifying user type. System will exit now");
             System.exit(-1);
+        } catch(NullPointerException e){
+            System.err.println("Incorrect Credentials have been provided");
+            System.exit(-1);
         }
         // Should not get executed:
         return null;
@@ -111,7 +114,7 @@ public class User {
         try{
             Scanner input = new Scanner(System.in);
             if(this.userName != null)
-                System.out.println("Hello " + this.userName);
+                System.out.println("\nHello " + this.userName);
             printHelp(this.type);
             String line = input.nextLine();
             while(!(line.toLowerCase().equals("logout"))){
@@ -120,16 +123,10 @@ public class User {
                 System.out.print(">");
                 line = input.next();
             }
+            parseCommand("logout");
         }
         catch(NoSuchElementException e){
-            Scanner input = new Scanner(System.in);
-            String line = input.nextLine();
-            while(!(line.toLowerCase().equals("logout"))){
-                parseCommand(line);
-                printHelp(this.type);
-                System.out.print(">");
-                line = input.next();
-            }
+
         }
     }
 
