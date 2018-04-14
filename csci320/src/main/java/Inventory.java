@@ -165,4 +165,55 @@ public class Inventory extends Table {
     public String convertListToString(String[] kk) {
         return String.format("%d,%d,%d",Integer.parseInt(kk[0]),Integer.parseInt(kk[1]),Integer.parseInt(kk[2]));
     }
+
+    /**
+     * Adds a certain amunt of items of a given UPC to the inventory
+     * @param upc
+     * @param quantity
+     */
+    public static void inventoryAdd(int upc, int quantity) {
+
+        String username = User.getUserName();
+        String[] names = username.split(" ");
+        // get current quantity
+        try {
+            String query =  " SELECT UPC, quantity from inventory" +
+            " WHERE UPC in (" + Inventory.getCurrentStoreInventory(names[0], names[1]) +
+                    ") and UPC = " + upc;
+            Statement s = conn.createStatement();
+            ResultSet rs = s.executeQuery(query);
+
+            boolean validUpc = false;
+            int curr_quantity  = 0;
+            while(rs.next()){
+                validUpc = true;
+                curr_quantity = Integer.parseInt(rs.getString("quantity"));
+                break;
+            }
+            if(validUpc){
+                // Update the quantity
+                int new_quantity = curr_quantity + quantity;
+
+
+                String query_update =  " UPDATE Inventory set quantity = " + new_quantity +
+                        " WHERE UPC in (" + Inventory.getCurrentStoreInventory(names[0], names[1]) +
+                        ") and UPC = " + upc;
+                Statement s_update = conn.createStatement();
+                boolean rs_update = s_update.execute(query_update);
+
+                System.out.println("Old quantity is " + curr_quantity + ", new is "+ new_quantity);
+
+            }else{
+                System.out.println("Invalid UPC, not found in your store");
+            }
+
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+//        SELECT UPC, quantity from inventory
+//        WHERE UPC in (Select UPC from Inventory where store_ID in(
+//                Select hStoreID from Customer WHERE
+//                fname = 'Abe' and lname =  'Aalbers')) and UPC = 111953
+    }
 }

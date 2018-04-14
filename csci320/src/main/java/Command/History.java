@@ -5,7 +5,6 @@ import main.java.Customer;
 import main.java.User;
 
 import java.sql.SQLException;
-
 public class History implements Command {
 
     /**

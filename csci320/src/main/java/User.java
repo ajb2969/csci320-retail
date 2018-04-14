@@ -145,6 +145,7 @@ public class User {
     public static void setUserId(){
         System.out.println(userName);
         String[] names = userName.split(" ");
+
         Connection c = Table.conn;
         Statement s = null;
         userID = "nullID";
