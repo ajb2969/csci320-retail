@@ -20,7 +20,7 @@ public class Sale extends Table{
         super(c, filename, populateTable);
     }
 
-    @Override
+
     public void populateTables(Connection c, String filename) {
         try {
             String query = "CREATE TABLE IF NOT EXISTS Sale("

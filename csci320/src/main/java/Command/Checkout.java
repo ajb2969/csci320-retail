@@ -4,6 +4,7 @@ package main.java.Command;
 import main.java.InitRetail;
 import main.java.ShoppingCart;
 
+import javax.xml.transform.Result;
 import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -35,18 +36,27 @@ public class Checkout implements Command {
 
                 //create Sale entry for sale
 
-
+                int storeID = 30;
                 String getStoreID = "Select hStoreID from Customer WHERE " +
                         "fname = \'"+ args[0] +"\' and lname = \'" + args[1] + "\'";
-                int storeID = s.executeQuery(getStoreID).getInt("hStoreID");
+                ResultSet rs = s.executeQuery(getStoreID);
+                while(rs.next()){
+                     storeID = rs.getInt("hStoreID");
+                }
+
 
 
                 String getUserID = "Select ID from Customer where "+
                         "fname = \'"+ args[0] +"\' and lname = \'" + args[1] + "\'";
-                String userID = s.executeQuery(getUserID).getString("ID");
+
+                String userID = "";
+                rs = s.executeQuery(getUserID);
+                while(rs.next()){
+                    userID = rs.getString("ID");
+                }
 
                 String createSale = "Insert into Sale values (0,";//0 is for auto increment
-                createSale += getStoreID +",";
+                createSale += storeID +",";
                 createSale += cost + ",";
                 createSale += "\'"+ userID + "\',";
                 createSale += new Timestamp(System.currentTimeMillis()) + ",";

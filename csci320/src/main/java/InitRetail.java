@@ -19,6 +19,9 @@ public class InitRetail {
     private static final String productFile = "productList.csv";
     private static final String storeFile = "storeList.csv";
     private static final String vendorFile = "vendorsList.csv";
+    private static final String saleFile = "saleList.csv";
+    private static final String producsSoldFile = "productsSoldList.csv";
+
 
 
     private static Connection conn;
@@ -55,6 +58,8 @@ public class InitRetail {
         new Vendor(conn,vendorFile, popTables);
         new Product(conn,productFile, popTables);
         new Inventory(conn,inventoryFile, popTables);
+        new Sale(conn,saleFile,popTables);
+        new ProductSold(conn, producsSoldFile, popTables);
         start();
     }
 

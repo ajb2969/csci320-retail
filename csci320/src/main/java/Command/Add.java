@@ -5,7 +5,7 @@ import main.java.ShoppingCart;
 import java.util.Scanner;
 
 public class Add implements Command{
-    private static ShoppingCart sc = sc = new ShoppingCart();
+    private static ShoppingCart sc = new ShoppingCart();
     public Add(){
 
     }
