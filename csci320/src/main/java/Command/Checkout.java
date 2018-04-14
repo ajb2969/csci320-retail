@@ -2,10 +2,9 @@ package main.java.Command;
 
 
 import main.java.InitRetail;
-import main.java.ShoppingCart;
 
-import javax.xml.transform.Result;
 import java.sql.*;
+import java.text.NumberFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -58,27 +57,39 @@ public class Checkout implements Command {
                 String createSale = "Insert into Sale values (0,";//0 is for auto increment
                 createSale += storeID +",";
                 createSale += cost + ",";
-                createSale += "\'"+ userID + "\',";
-                createSale += new Timestamp(System.currentTimeMillis()) + ",";
+                createSale += userID + ",";
+                createSale += "?,?);";
+                PreparedStatement ps = c.prepareStatement(createSale);
 
+                ps.setTimestamp(1,new Timestamp(System.currentTimeMillis()));
+                ps.setDate(2,new Date(System.currentTimeMillis()));
 
-                DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
-                LocalDate localDate = LocalDate.now();
-                dtf.format(localDate); //2016/11/16
-
-                createSale += dtf.format(localDate) + ");";
-                s.executeUpdate(createSale);
-                int x = 0;
+                ps.executeUpdate();
 
                 //saleID, storeID, cost, customerID, saleTime(timestamp), date(Date)
 
 
+                int saleID = 0;
+                ps = c.prepareStatement("Select max(saleID) from Sale");
+                rs = ps.executeQuery();
+                while(rs.next()){
+                    saleID = rs.getInt(1);
+                }
 
                 //add ProductSold entry connected to Sale
+                String insertProducts = "Insert into ProductSold values(";
 
-
-
-
+                for (Integer i : sc.keySet()){
+                    insertProducts+= String.valueOf(saleID) + ","+
+                            String.valueOf(i) + ","+
+                            String.valueOf(sc.get(i)) + "),(";
+                }
+                insertProducts = insertProducts.substring(0,insertProducts.length()-2);
+                ps = c.prepareStatement(insertProducts);
+                ps.executeUpdate();
+                NumberFormat format = NumberFormat.getCurrencyInstance();
+                System.out.println("Your total is " + format.format(cost));
+                System.exit(0);
 
             } catch (SQLException e) { e.printStackTrace(); }
     }
