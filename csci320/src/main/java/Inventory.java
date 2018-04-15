@@ -201,7 +201,7 @@ public class Inventory extends Table {
         // get current quantity
         try {
             String query =  " SELECT UPC, quantity from inventory" +
-            " WHERE UPC in (" + Inventory.getCurrentStoreInventory(names[0], names[1]) +
+            " WHERE UPC in (" + Inventory.getCurrentStoreInventoryUPC(names[0], names[1]) +
                     ") and UPC = " + upc;
             Statement s = conn.createStatement();
             ResultSet rs = s.executeQuery(query);
@@ -219,7 +219,7 @@ public class Inventory extends Table {
 
 
                 String query_update =  " UPDATE Inventory set quantity = " + new_quantity +
-                        " WHERE UPC in (" + Inventory.getCurrentStoreInventory(names[0], names[1]) +
+                        " WHERE UPC in (" + Inventory.getCurrentStoreInventoryUPC(names[0], names[1]) +
                         ") and UPC = " + upc;
                 Statement s_update = conn.createStatement();
                 boolean rs_update = s_update.execute(query_update);
