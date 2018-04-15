@@ -74,6 +74,17 @@ public class Checkout implements Command {
 
                 ps.executeUpdate();
 
+                //saleID, storeID, cost, customerID, saleTime(timestamp), date(Date)
+
+/*
+                saleID = 0;
+                ps = c.prepareStatement("Select max(saleID) from Sale");
+                rs = ps.executeQuery();
+                while(rs.next()){
+                    saleID = rs.getInt(1);
+                }
+*/
+
                 //add ProductSold entry connected to Sale
                 String insertProducts = "Insert into ProductSold values(";
 
