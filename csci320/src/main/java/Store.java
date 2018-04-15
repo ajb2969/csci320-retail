@@ -165,7 +165,9 @@ public class Store extends Table{
             String getStores = "Select id,name,address,city,state,zipcode,country from Store";
             PreparedStatement ps = conn.prepareStatement(getStores);
             ResultSet rs = ps.executeQuery();
+
             while(rs.next()){
+
                 stores.put(rs.getInt("id"), rs.getString("name") + "," +
                         rs.getString("address") + "," +
                         rs.getString("city") + "," +
@@ -199,9 +201,12 @@ public class Store extends Table{
             if(name == null){//guest
                 System.out.print("Please enter the store you're now in: ");
                 id = input.nextInt();
-                while(id == 30){
+                while(id >= 30){
                     if(id == 30){
                         System.err.println("As a guest, you may not shop at our online store");
+                    }
+                    if(id > 30){
+                        System.err.println("Invalid Store ID!");
                     }
                     System.out.print("Please enter the store you're now in: ");
                     id = input.nextInt();
@@ -213,6 +218,11 @@ public class Store extends Table{
             else{//user
                 System.out.print("Please enter the store you're now in: ");
                 id = input.nextInt();
+                while(id >= 30){
+                    System.err.println("Invalid Store ID!");
+                    System.out.print("Please enter the store you're now in: ");
+                    id = input.nextInt();
+                }
                 String [] n = name.split(" ");
                 query = String.format("SELECT id " +
                         "FROM Customer " +

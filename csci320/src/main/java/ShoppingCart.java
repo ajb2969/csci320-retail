@@ -30,8 +30,10 @@ public class ShoppingCart {
             Connection c = InitRetail.getConnection();
             Statement s = c.createStatement();
             ResultSet rs = s.executeQuery(query);
+            boolean executed = false;
             while(rs.next()){
                 if(rs.getString("UPC").equals(String.valueOf(upc))){
+                    executed = true;
                     if(cart.containsKey(upc)){
                         if(Integer.parseInt(rs.getString("quantity")) >= (quantity + cart.get(upc)) && quantity > 0){
                             cart.put(upc,(quantity + cart.get(upc)));
@@ -51,6 +53,9 @@ public class ShoppingCart {
                         }
                     }
                 }
+            }
+            if(!executed){
+                System.out.println("Invalid UPC to add");
             }
         } catch (SQLException e) {
             e.printStackTrace();
