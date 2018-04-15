@@ -23,8 +23,10 @@ public class InventoryRemove implements Command {
         try {
             Scanner scanner = new Scanner(System.in);
             System.out.println("Insert the UPC");
+            System.out.print("> ");
             int UPC = Integer.parseInt(scanner.nextLine());
             System.out.println("Insert the quantity to add");
+            System.out.print("> ");
             int quantity = Integer.parseInt(scanner.nextLine());
             main.java.Inventory.inventoryRemove(UPC, quantity);
         } catch (IllegalArgumentException | ArrayIndexOutOfBoundsException ae) {

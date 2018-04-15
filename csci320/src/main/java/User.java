@@ -208,7 +208,6 @@ public class User {
 
     /**
      * Registers and returns a hashmap with the commands of a guest
-     * TODO: Change Logout commands for real commands
      * @return: HashMap of the guest commands
      */
     private static HashMap<String, Command> createGuestCommands(){
@@ -216,7 +215,7 @@ public class User {
         commands.put("registeraccount", new RegisterAccount());
         commands.put("printlocation", new PrintLocation());
         commands.put("changelocation", new ChangeLocation());
-//        commands.put("inventory", new Inventory());
+        commands.put("inventory", new Inventory());
         commands.put("sort", new Sort());
         commands.put("add", new Add());
         commands.put("cart", new Cart());
@@ -227,7 +226,6 @@ public class User {
 
     /**
      * Registers and returns a hashmap with the commands of a member customer
-     * TODO: Change Logout commands for real commands
      * @return: HashMap of the guest commands
      */
     private static HashMap<String, Command> createMemberCommands(){
@@ -235,7 +233,7 @@ public class User {
         commands.put("history", new History());
         commands.put("printlocation", new PrintLocation());
         commands.put("changelocation", new ChangeLocation());
-//        commands.put("inventory", new Inventory());
+        commands.put("inventory", new Inventory());
         commands.put("sort", new Sort());
         commands.put("add", new Add());
         commands.put("cart", new Cart());
@@ -246,7 +244,6 @@ public class User {
 
     /**
      * Registers and returns a hashmap with the commands of an employee
-     * TODO: Change Logout commands for real commands
      * @return: HashMap of the guest commands
      */
     private static HashMap<String, Command> createEmployeeCommands(){
